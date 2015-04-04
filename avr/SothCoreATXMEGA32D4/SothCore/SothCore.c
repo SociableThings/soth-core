@@ -5,32 +5,47 @@
  *  Author: Hideyuki Takei
  */ 
 
-
-#define F_CPU 2000000UL
+// System Clock
+#define F_CPU 1000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
 
+
+// Universal macro
 #define nop() __asm__ __volatile__ ("nop")
 #define _sbi(port, bit) (port) |= (1 << (bit))
 #define _cbi(port, bit) (port) &= ~(1 << (bit))
 
-#define LED_POWER_PORT PORTC_OUT
+// LED
+#define LED_POWER_PORT PORTC
 #define LED_POWER_PIN 4
-#define LED_STATUS_PORT PORTC_OUT
+#define LED_STATUS_PORT PORTC
 #define LED_STATUS_PIN 5
 
-#define onLedPower() _sbi(LED_POWER_PORT, LED_POWER_PIN)
-#define offLedPower() _cbi(LED_POWER_PORT, LED_POWER_PIN)
-#define onLedStatus() _sbi(LED_STATUS_PORT, LED_STATUS_PIN)
-#define offLedStatus() _cbi(LED_STATUS_PORT, LED_STATUS_PIN)
+// USART
+#define USART_DEBUG_PORT PORTC
+#define USART_DEBUG_RXD_PIN 2
+#define USART_DEBUG_TXD_PIN 3
 
-// Prototype
+// Drive LED macro
+#define onLedPower() _sbi(LED_POWER_PORT.OUT, LED_POWER_PIN)
+#define offLedPower() _cbi(LED_POWER_PORT.OUT, LED_POWER_PIN)
+#define onLedStatus() _sbi(LED_STATUS_PORT.OUT, LED_STATUS_PIN)
+#define offLedStatus() _cbi(LED_STATUS_PORT.OUT, LED_STATUS_PIN)
+
+
+// Prototypes
+void initClock();
 void initPort();
+void initUsart();
+
 
 int main(void)
 {
 	initPort();
+	initClock();
+	initUsart();
 	
 	onLedPower();
 	
@@ -43,10 +58,31 @@ int main(void)
     }
 }
 
+void initClock()
+{
+	// Set int. 2MHz Clock
+	OSC.CTRL = OSC_RC2MEN_bm;
+	loop_until_bit_is_set(OSC.STATUS, OSC_RC2MRDY_bp);
+
+	// Set clock selector: Int. 2MHz
+	CPU_CCP = CCP_IOREG_gc;
+	CLK.CTRL = CLK_SCLKSEL_RC2M_gc;
+	
+	// Set Pre-scaler DIV2 (Sys CLK: 1MHz)
+	CPU_CCP = CCP_IOREG_gc;
+	CLK.PSCTRL = CLK_PSADIV_2_gc;
+}
+
 void initPort()
 {
-	PORTC_DIR = 0xff;
+	PORTC_DIR = 0b11111011;
+	PORTC_OUT = 0b11001011;
 	
 	offLedPower();
 	offLedStatus();
+}
+
+void initUsart()
+{
+	
 }
