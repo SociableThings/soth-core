@@ -2,7 +2,7 @@
  * SothCore.c
  *
  * Created: 2015/04/05 4:51:29
- *  Author: Hideyuki Takei <takehide22@gmail.com>
+ *  Author: Hideyuki Takei <hide@soth.io>
  */
 
 
@@ -11,41 +11,21 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
-
-// Universal macro
-#define nop()           __asm__ __volatile__ ("nop")
-#define _sbi(port, bit) (port) |= (1 << (bit))
-#define _cbi(port, bit) (port) &= ~(1 << (bit))
-
-// LED
-#define LED_POWER_PORT  PORTC
-#define LED_POWER_PIN   4
-#define LED_STATUS_PORT PORTC
-#define LED_STATUS_PIN  5
-
-// USART
-#define USART_DEBUG_PORT    PORTC
-#define USART_DEBUG_RXD_PIN 2
-#define USART_DEBUG_TXD_PIN 3
-
-// Drive LED macro
-#define onLedPower()   _sbi(LED_POWER_PORT.OUT, LED_POWER_PIN)
-#define offLedPower()  _cbi(LED_POWER_PORT.OUT, LED_POWER_PIN)
-#define onLedStatus()  _sbi(LED_STATUS_PORT.OUT, LED_STATUS_PIN)
-#define offLedStatus() _cbi(LED_STATUS_PORT.OUT, LED_STATUS_PIN)
+#include "SothCore.h"
+#include "UsartCommunication.h"
+#include "UsartGPS.h"
 
 
 // Prototypes
 void initClock();
 void initPort();
-void initUsart();
 
 
 int main(void)
 {
 	initPort();
 	initClock();
-	initUsart();
+	initUsartCommunication();
 	
 	onLedPower();
 	
@@ -57,7 +37,7 @@ int main(void)
 		_delay_ms(1000);
 
 		loop_until_bit_is_set(USARTC0.STATUS, USART_DREIF_bp);
-		USARTC0.DATA = 'c';
+		USARTC0.DATA = 'd';
     }
 }
 
@@ -83,15 +63,4 @@ void initPort()
 	
 	offLedPower();
 	offLedStatus();
-}
-
-void initUsart()
-{
-	// USARTCO, 115.2kbps, -0.08%
-	// BSEL:11, BSCALE:-7
-	USARTC0_BAUDCTRLA = 11;
-	USARTC0_BAUDCTRLB = USART_BSCALE3_bm | USART_BSCALE0_bm;
-	
-	USARTC0_CTRLB = USART_RXEN_bm | USART_TXEN_bm | USART_CLK2X_bm;
-	USARTC0_CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_CHSIZE_8BIT_gc | USART_PMODE_DISABLED_gc;
 }
