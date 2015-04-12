@@ -22,14 +22,15 @@
 
 .nolist
 #include <avr/io.h>
+#include "SothCore.h"
 .list
 
 #define	BPS	33	/* Bit delay. (see above) */
 
-#define	TXREG	_SFR_IO_ADDR(PORTC)	/* MISO: Port and bit position */
-#define	TXBIT	PC2
-#define RXREG	_SFR_IO_ADDR(PINB)	/* MOSI: Port and bit position */
-#define	RXBIT	PB5
+#define	TXREG	_SFR_IO_ADDR(SUSART_PORT_OUT)	/* MISO: Port and bit position */
+#define	TXBIT	SUSART_TXD_PIN
+#define RXREG	_SFR_IO_ADDR(SUSART_PORT_IN)	/* MOSI: Port and bit position */
+#define	RXBIT	SUSART_RXD_PIN
 
 #define USE_OUTPUT	/* Remove this when output functions are not needed */
 //#define USE_INPUT	/* Remove this when input functions are not needed */

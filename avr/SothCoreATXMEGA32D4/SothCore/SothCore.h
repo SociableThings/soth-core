@@ -1,13 +1,12 @@
 /*
  * SothCore.h
  *
- * Created: 2015/04/11 10:50:19
  *  Author: Hideyuki Takei <hide@soth.io>
  */ 
 
 
-#ifndef SOTHCORE_H_
-#define SOTHCORE_H_
+#ifndef SOTH_CORE_H_
+#define SOTH_CORE_H_
 
 
 // Universal macro
@@ -22,9 +21,15 @@
 #define LED_STATUS_PIN  5
 
 // USART
-#define USART_DEBUG_PORT    PORTC
-#define USART_DEBUG_RXD_PIN 2
-#define USART_DEBUG_TXD_PIN 3
+#define USART_COMMUNICATION_PORT    PORTC
+#define USART_COMMUNICATION_RXD_PIN 2
+#define USART_COMMUNICATION_TXD_PIN 3
+
+// Software USART
+#define SUSART_PORT_OUT VPORT2_OUT
+#define SUSART_PORT_IN  VPORT2_IN
+#define SUSART_RXD_PIN  6
+#define SUSART_TXD_PIN  7
 
 // Drive LED macro
 #define onLedPower()   _sbi(LED_POWER_PORT.OUT, LED_POWER_PIN)
@@ -33,4 +38,4 @@
 #define offLedStatus() _cbi(LED_STATUS_PORT.OUT, LED_STATUS_PIN)
 
 
-#endif /* SOTHCORE_H_ */
+#endif /* SOTH_CORE_H_ */

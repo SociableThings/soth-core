@@ -1,7 +1,6 @@
 /*
  * UsartCommunication.c
  *
- * Created: 2015/04/11 10:45:03
  *  Author: Hideyuki Takei <hide@soth.io>
  */ 
 

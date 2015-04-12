@@ -1,7 +1,6 @@
 /*
  * SothCore.c
  *
- * Created: 2015/04/05 4:51:29
  *  Author: Hideyuki Takei <hide@soth.io>
  */
 
@@ -11,9 +10,11 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/pgmspace.h>
 #include "SothCore.h"
 #include "UsartCommunication.h"
 #include "UsartGPS.h"
+#include "suart.h"
 
 
 // Prototypes
@@ -38,6 +39,8 @@ int main(void)
 
 		loop_until_bit_is_set(USARTC0.STATUS, USART_DREIF_bp);
 		USARTC0.DATA = 'd';
+		
+		xmitstr(PSTR("hoge=4\r\n"));
     }
 }
 
@@ -58,9 +61,14 @@ void initClock()
 
 void initPort()
 {
-	PORTC_DIR = 0b11111011;
-	PORTC_OUT = 0b11001011;
-	
+	// Port setting
+	PORTC_DIR = 0b10111011;
+	PORTC_OUT = 0b00001011;
+			
+	// Virtual port setting
+	PORTCFG.VPCTRLA = 0x10;  // map PORTA and PORTB to VPORT0 and VPORT1
+	PORTCFG.VPCTRLB = 0x32;  // map PORTC and PORTD to VPORT2 and VPORT3
+		
 	offLedPower();
 	offLedStatus();
 }
