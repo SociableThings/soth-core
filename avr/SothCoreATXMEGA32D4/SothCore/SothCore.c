@@ -23,24 +23,27 @@ void initPort();
 
 
 int main(void)
-{
+{	
+	char jsonString[1000];
 	initPort();
 	initClock();
-	initUsartCommunication();
+	initUsartComm();
+	initUsartGPS();
 	
 	onLedPower();
 	
     while(1)
     {
 		onLedStatus();
-        _delay_ms(500);
+        _delay_ms(50);
 		offLedStatus();
-		_delay_ms(1000);
-
-		loop_until_bit_is_set(USARTC0.STATUS, USART_DREIF_bp);
-		USARTC0.DATA = 'd';
+		_delay_ms(50);
 		
-		xmitstr(PSTR("hoge=4\r\n"));
+		getGPRMCInfoAsJson(jsonString);
+		sendStringToComm(jsonString);
+		
+		//xmitstr(PSTR("hoge=4\r\n"));
+		//xmitf(PSTR("hoge=%c\r\n"), a[0]);
     }
 }
 
@@ -63,7 +66,7 @@ void initPort()
 {
 	// Port setting
 	PORTC_DIR = 0b10111011;
-	PORTC_OUT = 0b00001011;
+	PORTC_OUT = 0b01001011;
 			
 	// Virtual port setting
 	PORTCFG.VPCTRLA = 0x10;  // map PORTA and PORTB to VPORT0 and VPORT1

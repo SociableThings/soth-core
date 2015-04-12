@@ -33,7 +33,7 @@
 #define	RXBIT	SUSART_RXD_PIN
 
 #define USE_OUTPUT	/* Remove this when output functions are not needed */
-//#define USE_INPUT	/* Remove this when input functions are not needed */
+#define USE_INPUT	/* Remove this when input functions are not needed */
 #define USE_STRFUNCS	/* Remove this when string functions are not needed */
 
 
@@ -288,9 +288,9 @@ rcvr:
 	ldi	r24, 0x80	;Receiving shift reg
 	cli			;Start critical section
 
-1:	sbic	RXREG, RXBIT	;Wait for falling edge on MOSI pin
+1:	sbis	RXREG, RXBIT	;Wait for falling edge on MOSI pin
 	rjmp	1b
-2:	sbis	RXREG, RXBIT	;Wait for rising edge on MOSI pin
+2:	sbic	RXREG, RXBIT	;Wait for rising edge on MOSI pin
 	rjmp	2b
 	ldi	r25, BPS/2	;Wait for half bit time
 3:	dec	r25
@@ -300,7 +300,7 @@ rcvr:
 5:	dec	r25     	;Wait for a bit time
 	brne	5b		;/
 	lsr	r24     	;Next bit
-	sbis	RXREG, RXBIT	;Get a bit into r24.7
+	sbic	RXREG, RXBIT	;Get a bit into r24.7
 	ori	r24, 0x80
 	brcc	4b	     	;All bits received?  no, continue
 

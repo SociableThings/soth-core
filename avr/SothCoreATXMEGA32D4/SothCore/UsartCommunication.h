@@ -9,7 +9,9 @@
 #define USART_COMMUNICATION_H_
 
 
-void initUsartCommunication();
+void initUsartComm();
+void sendCharacterToComm(const char);
+void sendStringToComm(const char *);
 
 
 #endif /* USART_COMMUNICATION_H_ */
