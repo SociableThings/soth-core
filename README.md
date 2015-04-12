@@ -15,6 +15,24 @@ Core
 
 ![Architecture](https://dl.dropboxusercontent.com/u/180053/soth/soth-bonsai-concept.003.png)
 
+## Data format
+### GPS
+```
+{
+    "year": 2015,
+    "month": 4,
+    "day": 12,
+    "hour": 14,
+    "minute": 0,
+    "second": 48,
+    "validity": 1,
+    "latitude": 35.69020,
+    "longitude": 139.69001,
+    "speed": 0.74,
+    "heading": 102.72
+}
+```
+
 ## Progress
 
 Now prototyping
