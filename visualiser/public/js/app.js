@@ -26,14 +26,14 @@ socket.on('gps', function(msg){
     if(centerMarker) centerMarker.setPosition(latlng)
   }
   
-  $('#gps_info').html(
-    'Validity: ' + msg.validity + 
-    ', Latitude: ' + msg.latitude +
-    ', Longitude: ' + msg.longitude +
-    ', Speed: ' + msg.speed + 'km/h' +
-    ', Heading: ' + msg.heading + 'deg.' +
-    ', Date: ' + msg.year + '/' + msg.month + '/' + msg.day + ' ' +
-    msg.hour + ':' + msg.minute + ':' + msg.second
+  $('#gps_info_validity').html(msg.validity ? '<span style="color:green">Valid</span>' : '<span style="color:red">Invalid</span>')
+  $('#gps_info_latitude').html(msg.latitude)
+  $('#gps_info_longitude').html(msg.longitude)
+  $('#gps_info_speed').html(msg.speed + ' km/h')
+  $('#gps_info_heading').html(msg.heading + ' deg.')
+  $('#gps_info_date').html(
+    msg.year + '/' + ('0'+msg.month).slice(-2) + '/' + ('0'+msg.day).slice(-2) + ' ' +
+    ('0'+msg.hour).slice(-2) + ':' + ('0'+msg.minute).slice(-2) + ':' + ('0'+msg.second).slice(-2)
   )
 })
 
