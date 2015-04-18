@@ -22,7 +22,6 @@ io.on('connection', function(socket){
 
     socket
       .on('getUsbDeviceNames', function(msg){
-        console.log('fd')
         fs.readdir('/dev/', function(err, files){
           if (err) throw err
           var fileList = []
@@ -38,6 +37,10 @@ io.on('connection', function(socket){
       .on('connectUsbDevice', function(msg){
         initializeSerialPort(msg.deviceName, msg.baudrate)
       })
+      .on('disconnect', function () {
+        console.log('disconnect')
+        closeSerialPort()
+      })
   })
 
 server.listen(3000)
@@ -45,9 +48,10 @@ server.listen(3000)
 // serial communication
 var serialport = require('serialport')
 var SerialPort = serialport.SerialPort
+var sp = null
 
 function initializeSerialPort(device, baudrate){
-  var sp = new SerialPort(device, {
+  sp = new SerialPort(device, {
     baudrate: baudrate,
     parser: serialport.parsers.readline('\n')
   })
@@ -57,3 +61,11 @@ function initializeSerialPort(device, baudrate){
     io.emit('gps', JSON.parse(data))
   })
 }
+
+function closeSerialPort(){
+  if(sp){
+    sp.close()
+  }
+  sp = null;
+}
+
