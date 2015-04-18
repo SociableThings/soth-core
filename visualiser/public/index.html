@@ -3,6 +3,7 @@
 <head>
     <title>Soth: Sociable Things Platform</title>
     <link href="css/application.min.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
     <link rel="shortcut icon" href="img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
@@ -15,66 +16,88 @@
     <h4><a href="index.html"><img src="img/logo.png" alt="" /></a></h4>
 </div>
 <div class="wrap">
-  <div class="content container-fluid">
-    <div class="row-fluid">
-      <div class="span3">
-        <section class="widget large">
-          <header>
-            <h4><i class="icon-off"></i> Conection</h4>
-          </header>
-          <div class="body">
-          </div>
-        </section>
-      </div>
-      <div class="span3">
-        <section class="widget large">
-          <header>
-            <h4><i class="icon-map-marker"></i> gps information</h4>
-          </header>
-          <div class="body">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td>Validity:</td>
-                  <td id="gps_info_validity"></td>
-                </tr>
-                <tr>
-                  <td>Latitude:</td>
-                  <td id="gps_info_latitude"></td>
-                </tr>
-                <tr>
-                  <td>Longitude:</td>
-                  <td id="gps_info_longitude"></td>
-                </tr>
-                <tr>
-                  <td>Speed:</td>
-                  <td id="gps_info_speed"></td>
-                </tr>
-                <tr>
-                  <td>Heading:</td>
-                  <td id="gps_info_heading"></td>
-                </tr>
-                <tr>
-                  <td>Date:</td>
-                  <td id="gps_info_date"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-      <div class="span6">
-        <section class="widget large">
-          <header>
-            <h4><i class="icon-globe"></i> Map</h4>
-          </header>
-          <div class="body">
-            <div id="map_canvas" style="width:100%; height:100%"></div>
-          </div>
-        </section>
-      </div>
+    <div class="content container-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                <section class="widget large">
+                    <header>
+                        <h4><i class="icon-off"></i> Soth-Communicator settings</h4>
+                    </header>
+                    <div class="body">
+                        <p>
+                            <span>USB devices</span>
+                            <button id="comm_reload" class="btn btn-mini" type="button">Reload</button>
+                            <span id="comm_device_not_found" style="display: none">Device not found</span>
+                        </p>
+                        <select id="comm_device_name">
+                        </select>
+
+                        <p>Baudrate</p>
+                        <div class="controls">
+                            <select id="comm_baudrate">
+                                <option>9600</option>
+                                <option>19200</option>
+                                <option>38400</option>
+                                <option>57600</option>
+                                <option selected>115200</option>
+                                <option>230400</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button id="comm_connect" class="btn btn-large btn-primary disabled" type="button">Conect Soth-Core</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="span3">
+                <section class="widget large">
+                    <header>
+                        <h4><i class="icon-map-marker"></i> GPS Information</h4>
+                    </header>
+                    <div class="body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Validity:</td>
+                                    <td id="gps_info_validity"></td>
+                                </tr>
+                                <tr>
+                                    <td>Latitude:</td>
+                                    <td id="gps_info_latitude"></td>
+                                </tr>
+                                <tr>
+                                    <td>Longitude:</td>
+                                    <td id="gps_info_longitude"></td>
+                                </tr>
+                                <tr>
+                                    <td>Speed:</td>
+                                    <td id="gps_info_speed"></td>
+                                </tr>
+                                <tr>
+                                    <td>Heading:</td>
+                                    <td id="gps_info_heading"></td>
+                                </tr>
+                                <tr>
+                                    <td>Date:</td>
+                                    <td id="gps_info_date"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <div class="span6">
+                <section class="widget large">
+                    <header>
+                        <h4><i class="icon-globe"></i> Map</h4>
+                    </header>
+                        <div class="body">
+                        <div id="map_canvas" style="width:100%; height:100%"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- jquery and friends -->
