@@ -9,11 +9,11 @@ Hardware core module for Sociable Things Agent.
 
 Agent
 
-![image](https://dl.dropboxusercontent.com/u/180053/soth/soth-bonsai-concept.002.png)
+![image](https://dl.dropboxusercontent.com/u/180053/soth/soth-bonsai-concept.002.jpg)
 
 Core
 
-![Architecture](https://dl.dropboxusercontent.com/u/180053/soth/soth-bonsai-concept.003.png)
+![Architecture](https://dl.dropboxusercontent.com/u/180053/soth/soth-bonsai-concept.003.jpg)
 
 ## Data format
 ### GPS
@@ -39,7 +39,7 @@ Now prototyping
 
 ![image](https://dl.dropboxusercontent.com/u/180053/soth/soth-core/circuit.jpg)
 
-![image](https://dl.dropboxusercontent.com/u/180053/soth/soth-core/browser.png)
+![image](https://dl.dropboxusercontent.com/u/180053/soth/soth-core/browser.jpg)
 
 
 ## GPS bore data
