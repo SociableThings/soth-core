@@ -35,12 +35,12 @@ int main(void)
     while(1)
     {
 		onLedStatus();
-        _delay_ms(50);
+        _delay_ms(500);
 		offLedStatus();
-		_delay_ms(50);
+		_delay_ms(500);
 		
-		getGPRMCInfoAsJson(jsonString);
-		sendStringToComm(jsonString);
+		//getGPRMCInfoAsJson(jsonString);
+		//sendStringToComm(jsonString);
 		
 		//xmitstr(PSTR("hoge=4\r\n"));
 		//xmitf(PSTR("hoge=%c\r\n"), a[0]);
