@@ -6759,6 +6759,7 @@ Source: http://www.semiconductors.philips.com/acrobat_download/datasheets/74HC_H
 <pinref part="SV6" gate="-4" pin="S"/>
 <wire x1="259.08" y1="91.44" x2="266.7" y2="91.44" width="0.1524" layer="91"/>
 <pinref part="SUPPLY7" gate="GND" pin="GND"/>
+<junction x="259.08" y="86.36"/>
 </segment>
 <segment>
 <pinref part="IC3" gate="A" pin="I"/>

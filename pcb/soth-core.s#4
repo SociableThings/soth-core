@@ -6585,7 +6585,7 @@ Source: http://www.semiconductors.philips.com/acrobat_download/datasheets/74HC_H
 <part name="IC3" library="74xx-little-de" deviceset="74*1G125" device="DBV" technology="AHC" value="TC7SZ125F"/>
 <part name="IC4" library="74xx-little-de" deviceset="74*1G125" device="DBV" technology="AHC" value="TC7SZ125F"/>
 <part name="SUPPLY8" library="supply2" deviceset="GND" device=""/>
-<part name="R3" library="rcl" deviceset="R-US_" device="R0805" value="10k"/>
+<part name="R3" library="rcl" deviceset="R-US_" device="R0805" value="1k"/>
 <part name="R4" library="rcl" deviceset="R-US_" device="R0805" value="10k"/>
 <part name="+3V5" library="supply1" deviceset="+3V3" device=""/>
 </parts>
