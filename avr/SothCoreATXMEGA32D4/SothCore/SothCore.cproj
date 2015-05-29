@@ -198,6 +198,12 @@
     <Compile Include="suart.S">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="UsartCmdServo.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UsartCmdServo.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="UsartCommunication.h">
       <SubType>compile</SubType>
     </Compile>

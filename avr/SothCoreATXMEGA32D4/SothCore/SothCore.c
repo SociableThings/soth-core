@@ -14,6 +14,7 @@
 #include "SothCore.h"
 #include "UsartCommunication.h"
 #include "UsartGPS.h"
+#include "UsartCmdServo.h"
 #include "suart.h"
 
 
@@ -25,19 +26,33 @@ void initPort();
 int main(void)
 {	
 	char jsonString[1000];
+	uint8_t data[1000];
+	
+	
 	initPort();
 	initClock();
 	initUsartComm();
 	initUsartGPS();
+	initUsartCmdServo();
 	
 	onLedPower();
 	
+	_delay_ms(1000);
+	
+	changeTorqueMode(1, CMD_SERVO_TORQUE_MODE_ON);
+	
     while(1)
     {
+		_delay_ms(2000);
+			
+        setGoalPosition(1, -160);
+		
 		onLedStatus();
-        _delay_ms(500);
+        _delay_ms(1000);
 		offLedStatus();
-		_delay_ms(500);
+		_delay_ms(1000);
+		
+		setGoalPosition(1, 1100);
 		
 		//getGPRMCInfoAsJson(jsonString);
 		//sendStringToComm(jsonString);
@@ -67,6 +82,8 @@ void initPort()
 	// Port setting
 	PORTC_DIR = 0b10111011;
 	PORTC_OUT = 0b01001011;
+	PORTD_DIR = 0b11111011;
+	PORTD_OUT = 0b11111011;
 			
 	// Virtual port setting
 	PORTCFG.VPCTRLA = 0x10;  // map PORTA and PORTB to VPORT0 and VPORT1
