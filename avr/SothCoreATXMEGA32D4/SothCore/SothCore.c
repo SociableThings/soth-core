@@ -16,7 +16,6 @@
 #include "UsartGPS.h"
 #include "UsartCmdServo.h"
 #include "xprintf.h"
-#include "suart.h"
 
 
 // Prototypes
@@ -50,14 +49,14 @@ int main(void)
     {
 		_delay_ms(2000);
 			
-        setGoalPosition(1, -20);
+        setGoalPosition(1, 0);
 		
 		onLedStatus();
         _delay_ms(1000);
 		offLedStatus();
 		_delay_ms(1000);
 
-	    setGoalPosition(1, 20);
+	    setGoalPosition(1, 100);
 		
 		//getGPRMCInfoAsJson(jsonString);
 		//sendStringToComm(jsonString);

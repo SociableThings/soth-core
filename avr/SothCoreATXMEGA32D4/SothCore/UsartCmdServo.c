@@ -7,7 +7,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "UsartCmdServo.h"
-#include "UsartCommunication.h"
+#include "xprintf.h"
 #include <stdio.h>
 
 
@@ -72,8 +72,7 @@ uint8_t recieveResponseCmdServo(uint8_t* data)
     totalLength = 7+data[5]+1;
 
     for(i=0; i<totalLength; i++){
-        sprintf(dataString, "data[%d]: 0x%X", i, data[i]);
-        sendStringToComm(dataString);
+        xprintf("data[%d]: 0x%X", i, data[i]);
     }
 
     xor = data[2];
@@ -102,7 +101,7 @@ void sendDataToCmdServo(const char c)
 	loop_until_bit_is_set(USARTD0.STATUS, USART_DREIF_bp);
 	USARTD0.DATA = c;
 
-
+    xprintf("%X\n", (uint8_t)c);
 }
 
 void sendPacket(uint8_t id, uint8_t flag, uint8_t address, uint8_t length, uint8_t count, uint8_t* data)
@@ -170,12 +169,13 @@ void rebootCmdServo(uint8_t id)
 
 void changeIdCmdServo(uint8_t fromId, uint8_t toId)
 {
-    sendPacket(fromId, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_SERVO_ID, 1, 1, toId);
+    uint8_t data[] = {toId};
+    sendPacket(fromId, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_SERVO_ID, 1, 1, data);
     _delay_ms(1);
-    //writeFlashROM(toId);
-    //_delay_us(500);
-    //rebootCmdServo(toId);
-    //_delay_ms(10);
+    writeFlashROM(toId);
+    _delay_us(500);
+    rebootCmdServo(toId);
+    _delay_ms(10);
 }
 
 servo_status_t getServoStatus(uint8_t id)
@@ -193,18 +193,15 @@ servo_status_t getServoStatus(uint8_t id)
     status.temperature = (uint16_t)(data[CMD_SERVO_DATA_INDEX+9] << 8 | data[CMD_SERVO_DATA_INDEX+8]);
     status.volts = (uint16_t)(data[CMD_SERVO_DATA_INDEX+11] << 8 | data[CMD_SERVO_DATA_INDEX+10]) * 10;
 
-    char dataString[200];
-    sprintf(
-    dataString,
-    "position: %d, time: %d, speed: %d, current: %d, temp: %d, volts: %d",
-    status.position,
-    status.time,
-    status.speed,
-    status.current,
-    status.temperature,
-    status.volts
+    xprintf(
+        "position: %d, time: %d, speed: %d, current: %d, temp: %d, volts: %d",
+        status.position,
+        status.time,
+        status.speed,
+        status.current,
+        status.temperature,
+        status.volts
     );
-    sendStringToComm(dataString);
 
     return status;
 }

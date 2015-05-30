@@ -194,7 +194,7 @@ void getGPRMCInfoAsJson(char* jsonString)
 	xsprintf(
 		jsonString,
 		"{\"year\":%d,\"month\":%d,\"day\":%d,\"hour\":%d,\"minute\":%d,\"second\":%d,"
-		"\"validity\":%d,\"latitude\":%s,\"longitude\":%s,\"speed\":%s,\"heading\":%s}",
+		"\"validity\":%d,\"latitude\":%s,\"longitude\":%s,\"speed\":%s,\"heading\":%s}\n",
 		info.year,
 		info.month,
 		info.day,

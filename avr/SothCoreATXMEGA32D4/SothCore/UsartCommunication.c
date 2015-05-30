@@ -19,7 +19,7 @@ void initUsartComm()
 	USARTC0_CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_CHSIZE_8BIT_gc | USART_PMODE_DISABLED_gc;
 
     // initialization for xprintf
-    //xdev_out(sendCharacterToComm);
+    xdev_out(sendCharacterToComm);
 }
 
 void sendCharacterToComm(const char c)
@@ -30,16 +30,5 @@ void sendCharacterToComm(const char c)
 
 void sendStringToComm(const char *str)
 {
-	uint8_t i = 0;
-	for(;;){
-		if(str[i]=='\n'){
-			break;
-		}
-		else if(str[i]=='\0'){
-			sendCharacterToComm('\n');
-			break;
-		}
-		
-		sendCharacterToComm(str[i++]);
-	}
+    xputs(str);
 }
