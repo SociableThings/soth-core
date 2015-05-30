@@ -15,8 +15,8 @@
 #include "UsartCommunication.h"
 #include "UsartGPS.h"
 #include "UsartCmdServo.h"
+#include "xprintf.h"
 #include "suart.h"
-#include <stdio.h>
 
 
 // Prototypes
@@ -50,20 +50,17 @@ int main(void)
     {
 		_delay_ms(2000);
 			
-        setGoalPosition(1, -160);
+        setGoalPosition(1, -20);
 		
 		onLedStatus();
         _delay_ms(1000);
 		offLedStatus();
 		_delay_ms(1000);
-		
-	    setGoalPosition(1, 1100);
+
+	    setGoalPosition(1, 20);
 		
 		//getGPRMCInfoAsJson(jsonString);
 		//sendStringToComm(jsonString);
-		
-		//xmitstr(PSTR("hoge=4\r\n"));
-		//xmitf(PSTR("hoge=%c\r\n"), a[0]);
     }
 }
 
@@ -86,7 +83,7 @@ void initPort()
 {
 	// Port setting
 	PORTC_DIR = 0b10111011;
-	PORTC_OUT = 0b01001011;
+	PORTC_OUT = 0b00001011;
 	PORTD_DIR = 0b11111011;
 	PORTD_OUT = 0b11111011;
 			

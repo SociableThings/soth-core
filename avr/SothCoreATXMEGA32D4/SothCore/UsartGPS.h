@@ -30,5 +30,4 @@ typedef struct
 void initUsartGPS();
 void getGPRMCInfoAsJson(char*);
 
-
 #endif /* USART_GPS_H_ */

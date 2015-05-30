@@ -32,7 +32,7 @@ void getGPSLine(char* str, const uint8_t length)
 	while(1){
 		c = rcvr();
 		if(c=='$'){
-			str[0] = '$';
+			str[0] = c;
 			break;
 		}
 	}

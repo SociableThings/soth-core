@@ -106,6 +106,10 @@
 #define CMD_SERVO_ID_DEFAULT        1
 #define CMD_SERVO_COUNT             5
 
+// Servo limit angle
+#define CMD_SERVO_ANGLE_LIMIT_MIN  -160
+#define CMD_SERVO_ANGLE_LIMIT_MAX  1100
+
 
 typedef struct servo_status {
     int16_t position;        // * 1/10 degree

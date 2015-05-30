@@ -6,6 +6,7 @@
 
 #include <avr/io.h>
 #include "UsartCommunication.h"
+#include "xprintf.h"
 
 void initUsartComm()
 {
@@ -16,6 +17,9 @@ void initUsartComm()
 	
 	USARTC0_CTRLB = USART_RXEN_bm | USART_TXEN_bm | USART_CLK2X_bm;
 	USARTC0_CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_CHSIZE_8BIT_gc | USART_PMODE_DISABLED_gc;
+
+    // initialization for xprintf
+    //xdev_out(sendCharacterToComm);
 }
 
 void sendCharacterToComm(const char c)

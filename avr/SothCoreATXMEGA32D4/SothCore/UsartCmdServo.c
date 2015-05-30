@@ -101,6 +101,8 @@ void sendDataToCmdServo(const char c)
 {
 	loop_until_bit_is_set(USARTD0.STATUS, USART_DREIF_bp);
 	USARTD0.DATA = c;
+
+
 }
 
 void sendPacket(uint8_t id, uint8_t flag, uint8_t address, uint8_t length, uint8_t count, uint8_t* data)
