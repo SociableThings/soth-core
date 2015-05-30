@@ -215,6 +215,42 @@ void setAngleLimit(uint8_t id, int16_t cwAngleLimit, int16_t ccwAngleLimit)
     _delay_ms(10);
 }
 
+void setGoalPositionForAllServos(int16_t position1, int16_t position2, int16_t position3, int16_t position4, int16_t position5)
+{
+    uint8_t data[] = {
+        (uint8_t)1, (uint8_t)(position1), (uint8_t)(position1>>8),
+        (uint8_t)2, (uint8_t)(position2), (uint8_t)(position2>>8),
+        (uint8_t)3, (uint8_t)(position3), (uint8_t)(position3>>8),
+        (uint8_t)4, (uint8_t)(position4), (uint8_t)(position4>>8),
+        (uint8_t)5, (uint8_t)(position5), (uint8_t)(position5>>8)
+    };
+    // Use long packet
+    sendPacket(0, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_GOAL_POSITION_L, 3, CMD_SERVO_COUNT, data);
+}
+
+void changeTorqueModeForAllServos(uint8_t mode1, uint8_t mode2, uint8_t mode3, uint8_t mode4, uint8_t mode5)
+{
+    uint8_t data[] = {
+        (uint8_t)1, (uint8_t)(mode1),
+        (uint8_t)2, (uint8_t)(mode2),
+        (uint8_t)3, (uint8_t)(mode3),
+        (uint8_t)4, (uint8_t)(mode4),
+        (uint8_t)5, (uint8_t)(mode5)
+    };
+    // Use long packet
+    sendPacket(0, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_TORQUE_ENABLE, 2, CMD_SERVO_COUNT, data);
+}
+
+void changeTorqueOnForAllServos()
+{
+    changeTorqueModeForAllServos(CMD_SERVO_TORQUE_MODE_ON, CMD_SERVO_TORQUE_MODE_ON, CMD_SERVO_TORQUE_MODE_ON, CMD_SERVO_TORQUE_MODE_ON, CMD_SERVO_TORQUE_MODE_ON);
+}
+
+void changeTorqueOffForAllServos()
+{
+    changeTorqueModeForAllServos(CMD_SERVO_TORQUE_MODE_OFF, CMD_SERVO_TORQUE_MODE_OFF, CMD_SERVO_TORQUE_MODE_OFF, CMD_SERVO_TORQUE_MODE_OFF, CMD_SERVO_TORQUE_MODE_OFF);
+}
+
 servo_status_t getServoStatus(uint8_t id)
 {
     uint8_t data[200];
