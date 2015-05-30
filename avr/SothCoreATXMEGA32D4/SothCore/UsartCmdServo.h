@@ -110,6 +110,10 @@
 #define CMD_SERVO_ANGLE_LIMIT_MIN  -160
 #define CMD_SERVO_ANGLE_LIMIT_MAX  1100
 
+// Reverse
+#define CMD_SERVO_REVERSE       1
+#define CMD_SERVO_NOT_REVERSE   0
+
 
 typedef struct servo_status {
     int16_t position;        // * 1/10 degree
@@ -135,6 +139,8 @@ void setGoalPosition(uint8_t id, int16_t position);
 void writeFlashROM(uint8_t id);
 void rebootCmdServo(uint8_t id);
 void changeIdCmdServo(uint8_t fromId, uint8_t toId);
+void reverseDirection(uint8_t id, uint8_t isReverse);
+void setAngleLimit(uint8_t id, int16_t cwAngleLimit, int16_t ccwAngleLimit);
 
 servo_status_t getServoStatus(uint8_t id);
 

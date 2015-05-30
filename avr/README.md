@@ -41,3 +41,31 @@
   - 3: Back right
   - 4: Back left
   - 5: Yaw
+- Reverse the direction?
+  - 1: Yes
+  - 2: No
+  - 3: No
+  - 4: Yes
+  - 5: No
+- Angle limit: CCW:-16.0 deg, CW: 110.0 deg
+
+
+## Functions
+### CMD Servo
+#### Change Servo ID
+Change servo ID from 1 to 5
+
+```
+changeIdCmdServo(1, 5);
+```
+
+#### Revserse direction
+```
+reverseDirection(1, CMD_SERVO_REVERSE); // reverse
+```
+
+#### Change angle limit
+```
+setAngleLimit(1, CMD_SERVO_ANGLE_LIMIT_MAX, CMD_SERVO_ANGLE_LIMIT_MIN);
+```
+

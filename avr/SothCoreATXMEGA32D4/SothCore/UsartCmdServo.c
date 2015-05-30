@@ -36,7 +36,6 @@ uint8_t recieveResponseCmdServo(uint8_t* data)
 {
     uint8_t i;
     uint8_t totalLength;
-    char dataString[100];
     uint8_t xor = 0;
     
     // Wait until TX buffer empty
@@ -171,10 +170,48 @@ void changeIdCmdServo(uint8_t fromId, uint8_t toId)
 {
     uint8_t data[] = {toId};
     sendPacket(fromId, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_SERVO_ID, 1, 1, data);
-    _delay_ms(1);
+    
+    _delay_ms(10);
     writeFlashROM(toId);
-    _delay_us(500);
+    _delay_ms(10);
     rebootCmdServo(toId);
+    _delay_ms(100);
+}
+
+void reverseDirection(uint8_t id, uint8_t isReverse)
+{
+    uint8_t data[1];
+
+    if(isReverse>0){
+        // reverse
+        data[0] = 0x01;
+    } else {
+        // not reverse (default)
+        data[0] = 0x00;
+    }
+    sendPacket(id, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_REVERSE, 1, 1, data);
+
+    _delay_ms(1);
+    writeFlashROM(id);
+    _delay_ms(1);
+    rebootCmdServo(id);
+    _delay_ms(10);
+}
+
+void setAngleLimit(uint8_t id, int16_t cwAngleLimit, int16_t ccwAngleLimit)
+{
+    uint8_t dataCW[] = {(uint8_t)(cwAngleLimit), (uint8_t)(cwAngleLimit>>8)};
+    sendPacket(id, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_CW_ANGLE_LIMIT_L, 2, 1, dataCW);
+
+    _delay_ms(1);
+
+    uint8_t dataCCW[] = {(uint8_t)(ccwAngleLimit), (uint8_t)(ccwAngleLimit>>8)};
+    sendPacket(id, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_CCW_ANGLE_LIMIT_L, 2, 1, dataCCW);
+
+    _delay_ms(1);
+    writeFlashROM(id);
+    _delay_ms(1);
+    rebootCmdServo(id);
     _delay_ms(10);
 }
 

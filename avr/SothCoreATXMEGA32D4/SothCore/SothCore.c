@@ -35,28 +35,43 @@ int main(void)
 	
 	onLedPower();
 	
-	_delay_ms(500);
+	_delay_ms(1000);
 
     //getServoStatus(1);
-    //changeIdCmdServo(1, 5);
+    //changeIdCmdServo(1, 4);
+    //reverseDirection(1, CMD_SERVO_REVERSE);
+    //setAngleLimit(1, CMD_SERVO_ANGLE_LIMIT_MAX, CMD_SERVO_ANGLE_LIMIT_MIN);
 
     _delay_ms(500);
 	
 	changeTorqueMode(1, CMD_SERVO_TORQUE_MODE_ON);
+    changeTorqueMode(2, CMD_SERVO_TORQUE_MODE_ON);
+    changeTorqueMode(3, CMD_SERVO_TORQUE_MODE_ON);
+    changeTorqueMode(4, CMD_SERVO_TORQUE_MODE_ON);
+    changeTorqueMode(5, CMD_SERVO_TORQUE_MODE_ON);
+
     //getServoStatus(5);
 	
     while(1)
     {
 		_delay_ms(2000);
 			
-        setGoalPosition(1, 0);
+        setGoalPosition(1, -20);
+        setGoalPosition(2, -20);
+        setGoalPosition(3, -20);
+        setGoalPosition(4, -20);
+        setGoalPosition(5, -20);
 		
 		onLedStatus();
         _delay_ms(1000);
 		offLedStatus();
 		_delay_ms(1000);
 
-	    setGoalPosition(1, 100);
+	    setGoalPosition(1, 20);
+        setGoalPosition(2, 20);
+        setGoalPosition(3, 20);
+        setGoalPosition(4, 20);
+        setGoalPosition(5, 20);
 		
 		//getGPRMCInfoAsJson(jsonString);
 		//sendStringToComm(jsonString);
