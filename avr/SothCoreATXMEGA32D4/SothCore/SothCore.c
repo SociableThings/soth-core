@@ -16,6 +16,7 @@
 #include "UsartGPS.h"
 #include "UsartCmdServo.h"
 #include "suart.h"
+#include <stdio.h>
 
 
 // Prototypes
@@ -25,9 +26,7 @@ void initPort();
 
 int main(void)
 {	
-	char jsonString[1000];
-	uint8_t data[1000];
-	
+	char jsonString[1000];	
 	
 	initPort();
 	initClock();
@@ -37,9 +36,15 @@ int main(void)
 	
 	onLedPower();
 	
-	_delay_ms(1000);
+	_delay_ms(500);
+
+    //getServoStatus(1);
+    //changeIdCmdServo(1, 5);
+
+    _delay_ms(500);
 	
 	changeTorqueMode(1, CMD_SERVO_TORQUE_MODE_ON);
+    //getServoStatus(5);
 	
     while(1)
     {
@@ -52,7 +57,7 @@ int main(void)
 		offLedStatus();
 		_delay_ms(1000);
 		
-		setGoalPosition(1, 1100);
+	    setGoalPosition(1, 1100);
 		
 		//getGPRMCInfoAsJson(jsonString);
 		//sendStringToComm(jsonString);
