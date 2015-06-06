@@ -1,7 +1,7 @@
 /*
  * SothCore.h
  *
- *  Author: Hideyuki Takei <hide@soth.io>
+ * Author: Hideyuki Takei <hide@soth.io>
  */ 
 
 

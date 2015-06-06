@@ -1,7 +1,7 @@
 /*
  * UsartCmdServo.h
  *
- *  Author: Hideyuki Takei <hide@soth.io>
+ * Author: Hideyuki Takei <hide@soth.io>
  */ 
 
 
@@ -96,6 +96,8 @@
 #define CMD_SERVO_RECV_STATUS_NG 1
 
 #define CMD_SERVO_DATA_INDEX 7
+
+#define CMD_SERVO_NO_DATA 0
 
 // Servo ID
 #define CMD_SERVO_ID_FRONT_RIGHT    1

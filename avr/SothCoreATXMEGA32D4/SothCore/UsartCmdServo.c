@@ -1,14 +1,13 @@
 /*
  * UsartCmdServo.c
  *
- *  Author: Hideyuki Takei <hide@soth.io>
+ * Author: Hideyuki Takei <hide@soth.io>
  */ 
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include "UsartCmdServo.h"
 #include "xprintf.h"
-#include <stdio.h>
 
 
 void initUsartCmdServo()
@@ -100,7 +99,7 @@ void sendDataToCmdServo(const char c)
 	loop_until_bit_is_set(USARTD0.STATUS, USART_DREIF_bp);
 	USARTD0.DATA = c;
 
-    xprintf("%X\n", (uint8_t)c);
+    //xprintf("%X\n", (uint8_t)c);
 }
 
 void sendPacket(uint8_t id, uint8_t flag, uint8_t address, uint8_t length, uint8_t count, uint8_t* data)
@@ -158,12 +157,12 @@ void setGoalPosition(uint8_t id, int16_t position)
 
 void writeFlashROM(uint8_t id)
 {
-    sendPacket(id, CMD_SERVO_SHORT_FLAG_WRITE_ROM, 0xFF, 0, 0, NULL);
+    sendPacket(id, CMD_SERVO_SHORT_FLAG_WRITE_ROM, 0xFF, 0, 0, CMD_SERVO_NO_DATA);
 }
 
 void rebootCmdServo(uint8_t id)
 {
-    sendPacket(id, CMD_SERVO_SHORT_FLAG_REBOOT, 0xFF, 0, 0, NULL);
+    sendPacket(id, CMD_SERVO_SHORT_FLAG_REBOOT, 0xFF, 0, 0, CMD_SERVO_NO_DATA);
 }
 
 void changeIdCmdServo(uint8_t fromId, uint8_t toId)
@@ -256,7 +255,7 @@ servo_status_t getServoStatus(uint8_t id)
     uint8_t data[200];
     servo_status_t status;
 
-    sendPacket(id, CMD_SERVO_SHORT_FLAG_MEMORY_MAP_42_59, 0, 0, 1, NULL);
+    sendPacket(id, CMD_SERVO_SHORT_FLAG_MEMORY_MAP_42_59, 0, 0, 1, CMD_SERVO_NO_DATA);
     recieveResponseCmdServo(data);
 
     status.position = (int16_t)(data[CMD_SERVO_DATA_INDEX+1] << 8 | data[CMD_SERVO_DATA_INDEX+0]);

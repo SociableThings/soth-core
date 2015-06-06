@@ -1,7 +1,7 @@
 /*
  * UsartGPS.c
  *
- *  Author: Hideyuki Takei
+ * Author: Hideyuki Takei
  */ 
 
 #include <avr/io.h>
@@ -19,7 +19,7 @@ NMEA_GPRMC getGPRMCInfo();
 
 void initUsartGPS()
 {
-	
+	// nop
 }
 
 void getGPSLine(char* str, const uint8_t length)

@@ -1,7 +1,7 @@
 /*
  * SothCore.c
  *
- *  Author: Hideyuki Takei <hide@soth.io>
+ * Author: Hideyuki Takei <hide@soth.io>
  */
 
 
@@ -11,9 +11,11 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/pgmspace.h>
+#include <avr/interrupt.h>  
 #include "SothCore.h"
 #include "UsartCommunication.h"
 #include "UsartGPS.h"
+#include "I2C.h"
 #include "UsartCmdServo.h"
 #include "xprintf.h"
 
@@ -25,17 +27,27 @@ void initPort();
 
 int main(void)
 {	
-	char jsonString[1000];	
+	char jsonString[1000];
 	
+    // Initialization
 	initPort();
 	initClock();
 	initUsartComm();
 	initUsartGPS();
+    initI2C();
 	initUsartCmdServo();
+
+    // Enable interrupt
+    PMIC_CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEX_bm;  // enable high/middle level interrupt executing
+    sei();
 	
+    // Enable power LED
 	onLedPower();
 	
 	_delay_ms(1000);
+
+    /*
+    // Servo test
 
     //changeIdCmdServo(1, 4);
     //reverseDirection(1, CMD_SERVO_REVERSE);
@@ -63,6 +75,39 @@ int main(void)
 		//getGPRMCInfoAsJson(jsonString);
 		//sendStringToComm(jsonString);
     }
+    */
+
+    /*
+    // GPS test
+    while(1)
+    {
+		onLedStatus();
+		_delay_ms(100);
+		offLedStatus();
+		_delay_ms(100);
+        
+        getGPRMCInfoAsJson(jsonString);
+        sendStringToComm(jsonString);
+
+        _delay_ms(1000);
+    }
+    */
+
+    // I2C test
+
+    _delay_ms(2000);
+
+    xprintf("write\n");
+    write(0b10111000);
+
+    while(1){
+        _delay_ms(1000);
+
+        onLedStatus();
+        _delay_ms(100);
+        offLedStatus();
+        _delay_ms(100);
+    }
 }
 
 void initClock()
@@ -83,9 +128,29 @@ void initClock()
 void initPort()
 {
 	// Port setting
-	PORTC_DIR = 0b10111011;
-	PORTC_OUT = 0b00001011;
-	PORTD_DIR = 0b11111011;
+    
+    // PORTC:     11111010
+    //            |||||||+- PD0: SDA I2C for sensors
+    //            ||||||+-- PD1: SCL I2C for sensors
+    //            |||||+--- PD2: RXC0 Communication
+    //            ||||+---- PD3: TXC0 Communication
+    //            |||+----- PD4: LED (POWER) Active High
+    //            ||+------ PD5: LED (STATUS)Å@Active High
+    //            |+------- PD6: NC
+    //            +-------- PD7: NC
+	PORTC_DIR = 0b11111010;
+	PORTC_OUT = 0b11001010;
+	
+    // PORTD:     11111011
+    //            |||||||+- PD0: NC
+    //            ||||||+-- PD1: NC
+    //            |||||+--- PD2: RXD0 Servo
+    //            ||||+---- PD3: TXD0 Servo
+    //            |||+----- PD4: NC
+    //            ||+------ PD5: NC
+    //            |+------- PD6: NC
+    //            +-------- PD7: NC
+    PORTD_DIR = 0b11111011;
 	PORTD_OUT = 0b11111011;
 			
 	// Virtual port setting
