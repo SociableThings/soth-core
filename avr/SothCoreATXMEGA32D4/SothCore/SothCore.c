@@ -23,6 +23,7 @@
 // Prototypes
 void initClock();
 void initPort();
+void testI2C(uint8_t length, uint8_t* data);
 
 
 int main(void)
@@ -98,7 +99,8 @@ int main(void)
     _delay_ms(2000);
 
     xprintf("write\n");
-    write(0b10111000);
+    uint8_t data[] = {0x0F};
+    addQueue(0b10111000, 1, data, 1, testI2C);
 
     while(1){
         _delay_ms(1000);
@@ -108,6 +110,11 @@ int main(void)
         offLedStatus();
         _delay_ms(100);
     }
+}
+
+void testI2C(uint8_t length, uint8_t* data)
+{
+    xprintf("testI2C\n");
 }
 
 void initClock()

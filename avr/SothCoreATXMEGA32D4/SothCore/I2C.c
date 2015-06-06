@@ -11,7 +11,17 @@
 #include "I2C.h"
 #include "xprintf.h"
 
-uint8_t i = 0;
+// Prototypes
+void doMessage();
+i2c_message_t getCurrentMessage();
+void popAndDoNext();
+
+// Variables
+i2c_message_t i2cQueue[I2C_QUEUE_SIZE];
+uint8_t i2cQueueIndex = 0;
+i2c_state_t i2cState = IDLE;
+uint8_t i2cIndex = 0;
+uint8_t* i2cData[I2C_DATA_SIZE];
 
 void initI2C()
 {
@@ -24,43 +34,92 @@ void initI2C()
     TWIC.MASTER.STATUS = TWI_MASTER_BUSSTATE_IDLE_gc;
 }
 
-void read(uint8_t address)
+void addQueue(uint8_t address, uint8_t writeLength, uint8_t* writeData, uint8_t readLength, void (*func)(uint8_t length, uint8_t* data))
 {
-    TWIC.MASTER.ADDR = address | TW_READ;
+    i2c_message_t message = {
+        address,
+        writeLength,
+        writeData,
+        readLength,
+        func
+    };
+    i2cQueue[i2cQueueIndex++] = message;
+
+    doMessage();
 }
 
-void write(uint8_t address)
+void doMessage()
 {
-    TWIC.MASTER.ADDR = address | TW_WRITE;
-    //TWIC.MASTER.DATA = 0x0F;
+    if(i2cState!=IDLE || i2cQueueIndex==0) return;
+
+    // write
+    i2cState = WRITING;
+    TWIC.MASTER.ADDR = getCurrentMessage().address | TW_WRITE;
+    i2cIndex = 0;
+}
+
+i2c_message_t getCurrentMessage()
+{
+    return i2cQueue[0];
+}
+
+void popAndDoNext()
+{
+    // Pop first message from i2c queue
+    for(uint8_t i=0; i<I2C_QUEUE_SIZE-1; i++) i2cQueue[i] = i2cQueue[i + 1];
+    i2cQueueIndex--;
+    doMessage();
 }
 
 ISR(TWIC_TWIM_vect)
 {
     if(bit_is_set(TWIC.MASTER.STATUS, TWI_MASTER_ARBLOST_bp) || bit_is_set(TWIC.MASTER.STATUS, TWI_MASTER_BUSERR_bp)){
-        xprintf("TWIC_TWIM_VECT ERROR\n");
-
         TWIC.MASTER.STATUS |= TWI_MASTER_ARBLOST_bm | TWI_MASTER_BUSERR_bm;
+
+        xprintf("TWIC_TWIM_VECT ERROR\n");
     }
     else{
         if(bit_is_set(TWIC.MASTER.STATUS, TWI_MASTER_WIF_bp)){
-            xprintf("TWIC_TWIM_VECT WIF\n");
-
             TWIC.MASTER.STATUS |= TWI_MASTER_WIF_bm;
 
-            if(i==1){
-                TWIC.MASTER.ADDR = 0b10111000 | TW_READ;
+            xprintf("TWIC_TWIM_VECT WIF\n");
+
+            if(i2cIndex<getCurrentMessage().writeLength){
+                uint8_t data = getCurrentMessage().writeData[i2cIndex++];
+                TWIC.MASTER.DATA = data;
+
+                xprintf(" >recv data: 0x%X\n", data);
             }
-            else{
-                TWIC.MASTER.DATA = 0x0F;
-                i = 1;
-            }
+            else {
+                // finished writing, next read
+                TWIC.MASTER.ADDR = getCurrentMessage().address | TW_READ;
+                i2cIndex = 0;
+                i2cState = READING;
+            } 
 
         }
         else if(bit_is_set(TWIC.MASTER.STATUS, TWI_MASTER_RIF_bp)){
-            xprintf("TWIC_TWIM_VECT RIF: %X\n", TWIC.MASTER.DATA);
-
+            i2cData[i2cIndex] = TWIC.MASTER.DATA;
             TWIC.MASTER.STATUS |= TWI_MASTER_RIF_bm;
+
+            xprintf("TWIC_TWIM_VECT RIF: %X\n", i2cData[i2cIndex]);
+
+            i2cIndex++;
+            if(i2cIndex<getCurrentMessage().readLength){
+                // continue reading
+            }
+            else{
+                // finished reading
+                i2cState = IDLE;
+                i2cIndex = 0;
+                
+                if(getCurrentMessage().func){
+                    // callback
+                    getCurrentMessage().func(getCurrentMessage().readLength, i2cData);
+                }
+
+                popAndDoNext();
+            }
         }
         else if(TWIC.MASTER.STATUS & TWI_MASTER_BUSSTATE_IDLE_gc){
             xprintf("TWIC_TWIM_VECT Transaction unknown failure\n");
