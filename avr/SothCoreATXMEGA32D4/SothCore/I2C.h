@@ -27,7 +27,7 @@ typedef enum {
 } i2c_state_t;
 
 void initI2C();
-void addQueue(uint8_t address, uint8_t writeLength, uint8_t* writeData, uint8_t readLength, void (*func)(uint8_t length, uint8_t* data));
+void addQueue(uint8_t address, uint8_t writeLength, uint8_t* writeData,  uint8_t readLength, void (*func)(uint8_t length, uint8_t* data));
 
 
 #endif /* I2C_H_ */

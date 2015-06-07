@@ -95,12 +95,22 @@ int main(void)
     */
 
     // I2C test
-
     _delay_ms(2000);
 
     xprintf("write\n");
-    uint8_t data[] = {0x0F};
-    addQueue(0b10111000, 1, data, 1, testI2C);
+    uint8_t data[] = {0x20, 0x90};
+    addQueue(0b10111000, 2, data, 0, testI2C);
+
+    _delay_ms(2000);
+    
+    /*uint8_t data2[] = {0x28};
+    addQueue(0b10111000, 1, data2, 1, testI2C);
+
+    uint8_t data3[] = {0x29};
+    addQueue(0b10111000, 1, data3, 1, testI2C);*/
+
+    uint8_t data4[] = {0x2A};
+    addQueue(0b10111000, 1, data4, 1, testI2C);
 
     while(1){
         _delay_ms(1000);
