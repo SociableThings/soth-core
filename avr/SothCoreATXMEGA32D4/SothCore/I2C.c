@@ -30,10 +30,9 @@ uint8_t* i2cData[I2C_DATA_SIZE];
 
 void initI2C()
 {
-    TWIC.CTRL = 0x00;
+    TWIC.CTRL = TWI_SDAHOLD_bm;
     TWIC.MASTER.BAUD = 0; // F_CPU / (2*I2C_FREQ) - 5 = 0
-    TWIC.MASTER.CTRLB = TWI_MASTER_SMEN_bm;
-    TWIC.MASTER.CTRLC = 0x00;
+    TWIC.MASTER.CTRLB = TWI_MASTER_TIMEOUT_200US_gc;
     TWIC.MASTER.CTRLA = TWI_MASTER_INTLVL1_bm | TWI_MASTER_RIEN_bm | TWI_MASTER_WIEN_bm | TWI_MASTER_ENABLE_bm;
 
     forceIdle();
@@ -133,7 +132,7 @@ ISR(TWIC_TWIM_vect)
                     // finished writing, next read
                     if(getCurrentMessage().readLength>0){
                         // stop
-                        forceStop();
+                        //forceStop();
 
                         TWIC.MASTER.ADDR = getCurrentMessage().address | TW_READ;
                         i2cIndex = 0;
@@ -165,21 +164,21 @@ ISR(TWIC_TWIM_vect)
                 if(i2cIndex<getCurrentMessage().readLength){
                     // continue reading
                     xprintf("TWIC_TWIM_VECT RIF continue\n");
-                    //TWIC.MASTER.CTRLC = TWI_MASTER_CMD_RECVTRANS_gc;
+                    TWIC.MASTER.CTRLC = TWI_MASTER_CMD_RECVTRANS_gc;
                 }
                 else{
                     // finished reading
                     xprintf("TWIC_TWIM_VECT RIF finished. send Nack\n");
 
                     // send nack
-                    TWIC.MASTER.CTRLC = TWI_MASTER_ACKACT_bm | TWI_MASTER_CMD_NOACT_gc;
+                    TWIC.MASTER.CTRLC = TWI_MASTER_ACKACT_bm | TWI_MASTER_CMD_STOP_gc;
 
                     if(getCurrentMessage().func){
                         // callback
                         getCurrentMessage().func(getCurrentMessage().readLength, i2cData);
                     }
 
-                    forceStop();
+                    //forceStop();
                     popAndDoNext();
                 }
             }
