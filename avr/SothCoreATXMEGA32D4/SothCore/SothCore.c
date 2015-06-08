@@ -47,7 +47,7 @@ int main(void)
 	
 	_delay_ms(1000);
 
-    /*
+    ///*
     // Servo test
 
     //changeIdCmdServo(1, 4);
@@ -62,21 +62,25 @@ int main(void)
 	
     while(1)
     {
-		_delay_ms(2000);
+        //setGoalPositionForAllServos(-110, -110, -110, -110, -80);
+        setGoalPosition(5, 0);
 
-        setGoalPositionForAllServos(-20, -20, -20, -20, -20);
-		
-		onLedStatus();
-        _delay_ms(1000);
-		offLedStatus();
-		_delay_ms(1000);
+		_delay_ms(2000);	    
 
-        setGoalPositionForAllServos(20, 20, 20, 20, 20);
-		
-		//getGPRMCInfoAsJson(jsonString);
-		//sendStringToComm(jsonString);
+        //setGoalPositionForAllServos(1000, 1000, 1000, 1000, 80);
+        setGoalPosition(5, 250);
+
+        _delay_ms(2000);
+
+        setGoalPosition(5, 0);
+
+        _delay_ms(2000);
+
+        setGoalPosition(5, -250);
+
+        _delay_ms(2000);
     }
-    */
+    //*/
 
     /*
     // GPS test
@@ -94,6 +98,7 @@ int main(void)
     }
     */
 
+    /*
     // I2C test
     xprintf("write\n");
     uint8_t data[] = {0x20, 0x90};
@@ -118,6 +123,7 @@ int main(void)
         offLedStatus();
         _delay_ms(100);
     }
+    */
 }
 
 void testI2C(uint8_t length, uint8_t* data)
