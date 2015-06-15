@@ -63,20 +63,28 @@ int main(void)
     while(1)
     {
         //setGoalPositionForAllServos(-110, -110, -110, -110, -80);
-        setGoalPosition(5, 0);
+        setGoalPosition(3, -120);
+        setGoalPosition(4, -120);
+        //setGoalPosition(5, 0);
 
 		_delay_ms(2000);	    
 
         //setGoalPositionForAllServos(1000, 1000, 1000, 1000, 80);
-        setGoalPosition(5, 250);
+        setGoalPosition(3, 40);
+        setGoalPosition(4, 40);
+        //setGoalPosition(5, 250);
 
         _delay_ms(2000);
 
-        setGoalPosition(5, 0);
+        setGoalPosition(3, 240);
+        setGoalPosition(4, 240);
+        //setGoalPosition(5, 0);
 
         _delay_ms(2000);
 
-        setGoalPosition(5, -250);
+        setGoalPosition(3, 0);
+        setGoalPosition(4, 0);
+        //setGoalPosition(5, -250);
 
         _delay_ms(2000);
     }
