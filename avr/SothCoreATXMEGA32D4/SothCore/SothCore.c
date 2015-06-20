@@ -19,6 +19,12 @@
 #include "UsartCmdServo.h"
 #include "xprintf.h"
 
+#define WAIT_TIME 150
+#define UP_ANGLE 900
+#define DOWN_ANGLE 700
+#define RIGHT_YAW 200
+#define LEFT_YAW -200
+#define CENTER_YAW -30
 
 // Prototypes
 void initClock();
@@ -58,35 +64,55 @@ int main(void)
 	
     changeTorqueOnForAllServos();
 
+    _delay_ms(2000);
+
+    setGoalPosition(5, CENTER_YAW);
+
+    _delay_ms(5000);
+
+    setGoalPositionForAllServos(-100, -100, -100, -100, CENTER_YAW);
+
+    _delay_ms(10000);
+
+    setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW);
+    _delay_ms(2000);
+
     //getServoStatus(5);
 	
+    
     while(1)
     {
-        //setGoalPositionForAllServos(-110, -110, -110, -110, -80);
-        setGoalPosition(3, -120);
-        setGoalPosition(4, -120);
-        //setGoalPosition(5, 0);
+        setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, CENTER_YAW);
 
-		_delay_ms(2000);	    
+		_delay_ms(WAIT_TIME);	    
 
-        //setGoalPositionForAllServos(1000, 1000, 1000, 1000, 80);
-        setGoalPosition(3, 40);
-        setGoalPosition(4, 40);
-        //setGoalPosition(5, 250);
+        setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, RIGHT_YAW);
 
-        _delay_ms(2000);
+        _delay_ms(WAIT_TIME);
 
-        setGoalPosition(3, 240);
-        setGoalPosition(4, 240);
-        //setGoalPosition(5, 0);
+        setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, RIGHT_YAW);
 
-        _delay_ms(2000);
+        _delay_ms(WAIT_TIME);
 
-        setGoalPosition(3, 0);
-        setGoalPosition(4, 0);
-        //setGoalPosition(5, -250);
+        setGoalPositionForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, RIGHT_YAW);
 
-        _delay_ms(2000);
+        _delay_ms(WAIT_TIME);
+
+        setGoalPositionForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, CENTER_YAW);
+
+        _delay_ms(WAIT_TIME);
+
+        setGoalPositionForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, LEFT_YAW);
+
+        _delay_ms(WAIT_TIME);
+
+        setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, LEFT_YAW);
+
+        _delay_ms(WAIT_TIME);
+
+        setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, LEFT_YAW);
+
+        _delay_ms(WAIT_TIME);
     }
     //*/
 
