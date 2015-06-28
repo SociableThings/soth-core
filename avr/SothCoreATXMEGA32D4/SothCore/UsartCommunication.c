@@ -32,3 +32,31 @@ void sendStringToComm(const char *str)
 {
     xputs(str);
 }
+
+uint16_t recvCharacters(char* buf, uint16_t length)
+{
+    uint8_t timeout;
+    uint16_t i;
+
+    for(i=0; i<length; i++){
+        timeout = 1;
+        
+        for(uint16_t j=0; j<5000; j++){
+            if(bit_is_set(USARTC0.STATUS, USART_RXCIF_bp)){
+                timeout = 0;
+                break;
+            }
+        }
+
+        if(timeout==1){
+            break;
+        }
+        else{
+            buf[i] = USARTC0.DATA;
+        }
+    }
+    //loop_until_bit_is_set(USARTC0.STATUS, USART_RXCIF_bp);
+
+    return i;
+}
+

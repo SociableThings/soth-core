@@ -12,6 +12,7 @@
 void initUsartComm();
 void sendCharacterToComm(const char);
 void sendStringToComm(const char *);
+uint16_t recvCharacters(char* buf, uint16_t length);
 
 
 #endif /* USART_COMMUNICATION_H_ */

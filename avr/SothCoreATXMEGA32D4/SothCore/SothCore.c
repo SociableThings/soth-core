@@ -18,6 +18,9 @@
 #include "I2C.h"
 #include "UsartCmdServo.h"
 #include "xprintf.h"
+#include "pb_decode.h"
+#include "pb_encode.h"
+#include "soth.pb.h"
 
 #define WAIT_TIME 150
 #define UP_ANGLE 900
@@ -35,6 +38,7 @@ void testI2C(uint8_t length, uint8_t* data);
 int main(void)
 {	
 	char jsonString[1000];
+    uint8_t servoData[200];
 	
     // Initialization
 	initPort();
@@ -53,7 +57,6 @@ int main(void)
 	
 	_delay_ms(1000);
 
-    ///*
     // Servo test
 
     //changeIdCmdServo(1, 4);
@@ -68,11 +71,15 @@ int main(void)
 
     setGoalPosition(5, CENTER_YAW);
 
-    _delay_ms(5000);
+    _delay_ms(2000);
 
     setGoalPositionForAllServos(-100, -100, -100, -100, CENTER_YAW);
 
-    _delay_ms(10000);
+    _delay_ms(3000);
+
+    onLedStatus();
+
+    _delay_ms(2000);
 
     setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW);
     _delay_ms(2000);
@@ -80,7 +87,7 @@ int main(void)
     //getServoStatus(5);
 	
     
-    while(1)
+    for(int8_t i=0; i<5; i++)
     {
         setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, CENTER_YAW);
 
@@ -114,7 +121,6 @@ int main(void)
 
         _delay_ms(WAIT_TIME);
     }
-    //*/
 
     /*
     // GPS test
@@ -158,6 +164,51 @@ int main(void)
         _delay_ms(100);
     }
     */
+
+    /*
+    uint8_t buffer[128];
+    size_t message_length;
+    bool status;
+
+    RobotInfoRequest request;
+    pb_ostream_t stream = pb_ostream_from_buffer(buffer, sizeof(buffer));
+    request.robot_id = 10;
+
+    status = pb_encode(&stream, RobotInfoRequest_fields, &request);
+    message_length = stream.bytes_written;
+
+    if (!status)
+    {
+        xprintf("Encoding failed: %s\n", PB_GET_ERROR(&stream));
+        return 1;
+    }
+
+    RobotInfoRequest req2;
+    pb_istream_t stream2 = pb_istream_from_buffer(buffer, message_length);
+    status = pb_decode(&stream2, RobotInfoRequest_fields, &req2);
+
+    if (!status)
+    {
+        xprintf("Decoding failed: %s\n", PB_GET_ERROR(&stream2));
+        return 1;
+    }
+
+    onLedStatus();
+    while(1){
+        uint16_t length = recvCharacters(servoData, 3);
+        if(length>0){
+            break;
+        }
+    }
+    _delay_ms(1000);
+
+    while(1){
+        onLedStatus();
+        _delay_ms(500);
+        offLedStatus();
+        _delay_ms(500);
+        xprintf("Your lucky number was %d!\n", req2.robot_id);
+    }*/
 }
 
 void testI2C(uint8_t length, uint8_t* data)

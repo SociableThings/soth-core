@@ -3296,103 +3296,6 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 </deviceset>
 </devicesets>
 </library>
-<library name="SparkFun-PowerIC">
-<description>&lt;h3&gt;SparkFun Electronics' preferred foot prints&lt;/h3&gt;
-In this library you'll find drivers, regulators, and amplifiers.&lt;br&gt;&lt;br&gt;
-We've spent an enormous amount of time creating and checking these footprints and parts, but it is the end user's responsibility to ensure correctness and suitablity for a given componet or application. If you enjoy using this library, please buy one of our products at www.sparkfun.com.
-&lt;br&gt;&lt;br&gt;
-&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
-&lt;br&gt;&lt;br&gt;
-You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
-<packages>
-<package name="SOT23-5">
-<description>&lt;b&gt;Small Outline Transistor&lt;/b&gt;</description>
-<wire x1="1.27" y1="0.4294" x2="1.27" y2="-0.4294" width="0.2032" layer="21"/>
-<wire x1="1.4" y1="-0.8" x2="-1.4" y2="-0.8" width="0.1524" layer="51"/>
-<wire x1="-1.27" y1="-0.4294" x2="-1.27" y2="0.4294" width="0.2032" layer="21"/>
-<wire x1="-1.4" y1="0.8" x2="1.4" y2="0.8" width="0.1524" layer="51"/>
-<wire x1="-0.2684" y1="0.7088" x2="0.2684" y2="0.7088" width="0.2032" layer="21"/>
-<wire x1="1.4" y1="0.8" x2="1.4" y2="-0.8" width="0.1524" layer="51"/>
-<wire x1="-1.4" y1="0.8" x2="-1.4" y2="-0.8" width="0.1524" layer="51"/>
-<rectangle x1="-1.2" y1="-1.5" x2="-0.7" y2="-0.85" layer="51"/>
-<rectangle x1="-0.25" y1="-1.5" x2="0.25" y2="-0.85" layer="51"/>
-<rectangle x1="0.7" y1="-1.5" x2="1.2" y2="-0.85" layer="51"/>
-<rectangle x1="0.7" y1="0.85" x2="1.2" y2="1.5" layer="51"/>
-<rectangle x1="-1.2" y1="0.85" x2="-0.7" y2="1.5" layer="51"/>
-<smd name="1" x="-0.95" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="2" x="0" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="3" x="0.95" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="4" x="0.95" y="1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="5" x="-0.95" y="1.3001" dx="0.55" dy="1.2" layer="1"/>
-<text x="-0.889" y="2.159" size="0.4064" layer="25">&gt;NAME</text>
-<text x="-0.9525" y="-0.1905" size="0.4064" layer="27">&gt;VALUE</text>
-<circle x="-1.6002" y="-1.016" radius="0.127" width="0" layer="21"/>
-</package>
-<package name="SON-6-DRV">
-<circle x="0.65" y="1.05" radius="0.180275" width="0.127" layer="51"/>
-<circle x="1.45" y="1.05" radius="0.180275" width="0.127" layer="51"/>
-<circle x="-0.05" y="0.05" radius="0.1" width="0.127" layer="21"/>
-<wire x1="0" y1="0" x2="0" y2="2.1" width="0.127" layer="51"/>
-<wire x1="0" y1="2.1" x2="2.1" y2="2.1" width="0.127" layer="51"/>
-<wire x1="2.1" y1="2.1" x2="2.1" y2="0" width="0.127" layer="51"/>
-<wire x1="2.1" y1="0" x2="0" y2="0" width="0.127" layer="51"/>
-<smd name="1" x="0.4" y="0" dx="0.7" dy="0.3" layer="1" rot="R90"/>
-<smd name="2" x="1.05" y="0" dx="0.7" dy="0.3" layer="1" rot="R90"/>
-<smd name="3" x="1.7" y="0" dx="0.7" dy="0.3" layer="1" rot="R90"/>
-<smd name="4" x="1.7" y="2.1" dx="0.7" dy="0.3" layer="1" rot="R90"/>
-<smd name="5" x="1.05" y="2.1" dx="0.7" dy="0.3" layer="1" rot="R90"/>
-<smd name="6" x="0.4" y="2.1" dx="0.7" dy="0.3" layer="1" rot="R90"/>
-<smd name="PAD" x="1.05" y="1.05" dx="1.6" dy="1" layer="1"/>
-</package>
-</packages>
-<symbols>
-<symbol name="LDO-TPS78233">
-<wire x1="-7.62" y1="-7.62" x2="5.08" y2="-7.62" width="0.4064" layer="94"/>
-<wire x1="5.08" y1="-7.62" x2="5.08" y2="7.62" width="0.4064" layer="94"/>
-<wire x1="5.08" y1="7.62" x2="-7.62" y2="7.62" width="0.4064" layer="94"/>
-<wire x1="-7.62" y1="7.62" x2="-7.62" y2="-7.62" width="0.4064" layer="94"/>
-<pin name="EN" x="-10.16" y="-5.08" length="short" direction="in"/>
-<pin name="GND" x="-10.16" y="0" length="short" direction="in"/>
-<pin name="IN" x="-10.16" y="5.08" length="short" direction="in"/>
-<pin name="VCC" x="7.62" y="5.08" length="short" direction="sup" rot="R180"/>
-<text x="-5.08" y="9.144" size="1.778" layer="95">&gt;NAME</text>
-<text x="-10.16" y="-11.43" size="1.778" layer="96">&gt;VALUE</text>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="LDO-TPS78233" prefix="U">
-<description>&lt;b&gt;Voltage Regulator LDO&lt;/b&gt;
-500nA Ground Current, 150mA, Ultra-Low Quiescent Current Low-Dropout Linear Regulator.</description>
-<gates>
-<gate name="G$1" symbol="LDO-TPS78233" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="SOT23-5">
-<connects>
-<connect gate="G$1" pin="EN" pad="3"/>
-<connect gate="G$1" pin="GND" pad="2 4"/>
-<connect gate="G$1" pin="IN" pad="1"/>
-<connect gate="G$1" pin="VCC" pad="5"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="SON-6" package="SON-6-DRV">
-<connects>
-<connect gate="G$1" pin="EN" pad="4"/>
-<connect gate="G$1" pin="GND" pad="3 5 PAD"/>
-<connect gate="G$1" pin="IN" pad="6"/>
-<connect gate="G$1" pin="VCC" pad="1"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="rcl">
 <description>&lt;b&gt;Resistors, Capacitors, Inductors&lt;/b&gt;&lt;p&gt;
 Based on the previous libraries:
@@ -12314,6 +12217,137 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 </deviceset>
 </devicesets>
 </library>
+<library name="texas">
+<description>&lt;b&gt;Texas Instruments Devices&lt;/b&gt;&lt;p&gt;
+ &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="SOT23-DBV">
+<description>&lt;b&gt;Small Outline Transistor&lt;/b&gt; DBV (R-PDSO-G5)&lt;p&gt;
+Source: http://focus.ti.com/lit/ds/symlink/tps77001.pdf</description>
+<wire x1="1.422" y1="0.81" x2="1.422" y2="-0.81" width="0.1524" layer="21"/>
+<wire x1="1.422" y1="-0.81" x2="-1.422" y2="-0.81" width="0.1524" layer="51"/>
+<wire x1="-1.422" y1="-0.81" x2="-1.422" y2="0.81" width="0.1524" layer="21"/>
+<wire x1="-1.422" y1="0.81" x2="1.422" y2="0.81" width="0.1524" layer="51"/>
+<wire x1="-0.522" y1="0.81" x2="0.522" y2="0.81" width="0.1524" layer="21"/>
+<wire x1="-0.428" y1="-0.81" x2="-0.522" y2="-0.81" width="0.1524" layer="21"/>
+<wire x1="0.522" y1="-0.81" x2="0.428" y2="-0.81" width="0.1524" layer="21"/>
+<wire x1="-1.328" y1="-0.81" x2="-1.422" y2="-0.81" width="0.1524" layer="21"/>
+<wire x1="1.422" y1="-0.81" x2="1.328" y2="-0.81" width="0.1524" layer="21"/>
+<wire x1="1.328" y1="0.81" x2="1.422" y2="0.81" width="0.1524" layer="21"/>
+<wire x1="-1.422" y1="0.81" x2="-1.328" y2="0.81" width="0.1524" layer="21"/>
+<smd name="1" x="-0.95" y="-1.3" dx="0.55" dy="1.2" layer="1"/>
+<smd name="2" x="0" y="-1.3" dx="0.55" dy="1.2" layer="1"/>
+<smd name="3" x="0.95" y="-1.3" dx="0.55" dy="1.2" layer="1"/>
+<smd name="4" x="0.95" y="1.3" dx="0.55" dy="1.2" layer="1"/>
+<smd name="5" x="-0.95" y="1.3" dx="0.55" dy="1.2" layer="1"/>
+<text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
+<text x="-1.905" y="-3.429" size="1.27" layer="27">&gt;VALUE</text>
+<rectangle x1="-1.2" y1="-1.5" x2="-0.7" y2="-0.85" layer="51"/>
+<rectangle x1="-0.25" y1="-1.5" x2="0.25" y2="-0.85" layer="51"/>
+<rectangle x1="0.7" y1="-1.5" x2="1.2" y2="-0.85" layer="51"/>
+<rectangle x1="0.7" y1="0.85" x2="1.2" y2="1.5" layer="51"/>
+<rectangle x1="-1.2" y1="0.85" x2="-0.7" y2="1.5" layer="51"/>
+</package>
+</packages>
+<symbols>
+<symbol name="TPS770XX">
+<wire x1="-7.62" y1="7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="7.62" x2="10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-7.62" x2="-7.62" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-7.62" x2="-7.62" y2="7.62" width="0.254" layer="94"/>
+<text x="-7.62" y="8.89" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="IN" x="-10.16" y="5.08" length="short" direction="in"/>
+<pin name="!EN" x="-10.16" y="0" length="short" direction="in"/>
+<pin name="NC/FB" x="12.7" y="-5.08" length="short" direction="pas" rot="R180"/>
+<pin name="OUT" x="12.7" y="5.08" length="short" direction="pas" rot="R180"/>
+<pin name="GND" x="-10.16" y="-5.08" length="short" direction="pwr"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="TPS770*" prefix="IC">
+<description>&lt;b&gt;ULTRALOW-POWER 50-mA LOW-DROPOUT LINEAR REGULATORS&lt;/b&gt;&lt;p&gt;
+50-mA Low-Dropout Regulator&lt;br&gt;
+Source: http://focus.ti.com/lit/ds/symlink/tps77001.pdf</description>
+<gates>
+<gate name="G$1" symbol="TPS770XX" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT23-DBV">
+<connects>
+<connect gate="G$1" pin="!EN" pad="3"/>
+<connect gate="G$1" pin="GND" pad="2"/>
+<connect gate="G$1" pin="IN" pad="1"/>
+<connect gate="G$1" pin="NC/FB" pad="4"/>
+<connect gate="G$1" pin="OUT" pad="5"/>
+</connects>
+<technologies>
+<technology name="01">
+<attribute name="MF" value="TEXAS INSTRUMENTS" constant="no"/>
+<attribute name="MPN" value="TPS77001DBVT" constant="no"/>
+<attribute name="OC_FARNELL" value="8461554" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1171" constant="no"/>
+</technology>
+<technology name="12">
+<attribute name="MF" value="TEXAS INSTRUMENT CONNECTORS" constant="no"/>
+<attribute name="MPN" value="TPS77012DBVR" constant="no"/>
+<attribute name="OC_FARNELL" value="1412877" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1172" constant="no"/>
+</technology>
+<technology name="15">
+<attribute name="MF" value="TEXAS INSTRUMENT CONNECTORS" constant="no"/>
+<attribute name="MPN" value="TPS77015DBVT" constant="no"/>
+<attribute name="OC_FARNELL" value="1412879" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1175" constant="no"/>
+</technology>
+<technology name="18">
+<attribute name="MF" value="TEXAS INSTRUMENT CONNECTORS" constant="no"/>
+<attribute name="MPN" value="TPS77018DBVR" constant="no"/>
+<attribute name="OC_FARNELL" value="1575745" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1176" constant="no"/>
+</technology>
+<technology name="25">
+<attribute name="MF" value="TEXAS INSTRUMENTS" constant="no"/>
+<attribute name="MPN" value="TPS77025DBVR" constant="no"/>
+<attribute name="OC_FARNELL" value="1412881" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1178" constant="no"/>
+</technology>
+<technology name="27">
+<attribute name="MF" value="TEXAS INSTRUMENT CONNECTORS" constant="no"/>
+<attribute name="MPN" value="TPS77027DBVT" constant="no"/>
+<attribute name="OC_FARNELL" value="1510191" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1181" constant="no"/>
+</technology>
+<technology name="28">
+<attribute name="MF" value="TEXAS INSTRUMENT CONNECTORS" constant="no"/>
+<attribute name="MPN" value="TPS77028DBVR" constant="no"/>
+<attribute name="OC_FARNELL" value="1412882" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1182" constant="no"/>
+</technology>
+<technology name="30">
+<attribute name="MF" value="TEXAS INSTRUMENTS" constant="no"/>
+<attribute name="MPN" value="TPS77030DBVT" constant="no"/>
+<attribute name="OC_FARNELL" value="1207348" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1185" constant="no"/>
+</technology>
+<technology name="33">
+<attribute name="MF" value="TEXAS INSTRUMENTS" constant="no"/>
+<attribute name="MPN" value="TPS77033DBVT" constant="no"/>
+<attribute name="OC_FARNELL" value="8461570" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1187" constant="no"/>
+</technology>
+<technology name="50">
+<attribute name="MF" value="TEXAS INSTRUMENT CONNECTORS" constant="no"/>
+<attribute name="MPN" value="TPS77050DBVT" constant="no"/>
+<attribute name="OC_FARNELL" value="1412883" constant="no"/>
+<attribute name="OC_NEWARK" value="77C1189" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -12350,7 +12384,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <part name="P+1" library="supply1" deviceset="+5V" device=""/>
 <part name="P+2" library="supply1" deviceset="+5V" device=""/>
 <part name="CN1" library="SparkFun-Connectors" deviceset="M03" device="PTH"/>
-<part name="U1" library="SparkFun-PowerIC" deviceset="LDO-TPS78233" device=""/>
 <part name="C1" library="rcl" deviceset="C-EU" device="C1608" value="0u1"/>
 <part name="C2" library="rcl" deviceset="C-EU" device="C1608" value="1u"/>
 <part name="R1" library="rcl" deviceset="R-US_" device="R0603" value="10k"/>
@@ -12381,6 +12414,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <part name="R7" library="rcl" deviceset="R-US_" device="R0603" value="1k"/>
 <part name="GND11" library="supply1" deviceset="GNDA" device="" value="GND3V3"/>
 <part name="U$2" library="Soth" deviceset="SOTH_LOGO" device=""/>
+<part name="IC2" library="texas" deviceset="TPS770*" device="" technology="01"/>
+<part name="C3" library="rcl" deviceset="C-EU" device="C1608" value="0u01"/>
+<part name="GND12" library="supply1" deviceset="GNDA" device="" value="GND3V3"/>
 </parts>
 <sheets>
 <sheet>
@@ -12399,16 +12435,15 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <instance part="GND1" gate="1" x="38.1" y="17.78"/>
 <instance part="GND2" gate="1" x="71.12" y="116.84"/>
 <instance part="GND3" gate="1" x="66.04" y="68.58"/>
-<instance part="GND4" gate="1" x="129.54" y="119.38"/>
+<instance part="GND4" gate="1" x="144.78" y="114.3"/>
 <instance part="+3V1" gate="G$1" x="73.66" y="109.22"/>
-<instance part="+3V2" gate="G$1" x="129.54" y="147.32"/>
+<instance part="+3V2" gate="G$1" x="144.78" y="147.32"/>
 <instance part="P+1" gate="1" x="71.12" y="147.32"/>
 <instance part="P+2" gate="1" x="40.64" y="119.38"/>
 <instance part="CN1" gate="G$1" x="58.42" y="137.16"/>
-<instance part="U1" gate="G$1" x="114.3" y="132.08"/>
 <instance part="C1" gate="G$1" x="76.2" y="132.08"/>
-<instance part="C2" gate="G$1" x="129.54" y="132.08"/>
-<instance part="R1" gate="G$1" x="96.52" y="127"/>
+<instance part="C2" gate="G$1" x="144.78" y="132.08"/>
+<instance part="R1" gate="G$1" x="96.52" y="132.08"/>
 <instance part="GND5" gate="1" x="243.84" y="33.02"/>
 <instance part="+3V3" gate="G$1" x="193.04" y="106.68"/>
 <instance part="CN2" gate="G$1" x="53.34" y="91.44"/>
@@ -12436,6 +12471,9 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <instance part="R7" gate="G$1" x="111.76" y="20.32" rot="R180"/>
 <instance part="GND11" gate="1" x="88.9" y="12.7"/>
 <instance part="U$2" gate="G$1" x="228.6" y="17.78"/>
+<instance part="IC2" gate="G$1" x="114.3" y="132.08"/>
+<instance part="C3" gate="G$1" x="132.08" y="124.46"/>
+<instance part="GND12" gate="1" x="132.08" y="114.3"/>
 </instances>
 <busses>
 </busses>
@@ -12498,12 +12536,12 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <wire x1="71.12" y1="121.92" x2="71.12" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="121.92" x2="76.2" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="121.92" x2="76.2" y2="127" width="0.1524" layer="91"/>
-<wire x1="76.2" y1="121.92" x2="86.36" y2="121.92" width="0.1524" layer="91"/>
-<wire x1="86.36" y1="121.92" x2="86.36" y2="132.08" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="GND"/>
-<wire x1="86.36" y1="132.08" x2="104.14" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="121.92" x2="88.9" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="121.92" x2="88.9" y2="127" width="0.1524" layer="91"/>
 <junction x="76.2" y="121.92"/>
 <junction x="71.12" y="121.92"/>
+<pinref part="IC2" gate="G$1" pin="GND"/>
+<wire x1="88.9" y1="127" x2="104.14" y2="127" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="T3" gate="A" pin="S"/>
@@ -12543,7 +12581,7 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <segment>
 <pinref part="C2" gate="G$1" pin="2"/>
 <pinref part="GND4" gate="1" pin="GNDA"/>
-<wire x1="129.54" y1="127" x2="129.54" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="144.78" y1="127" x2="144.78" y2="116.84" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="GND"/>
@@ -12594,6 +12632,11 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <pinref part="LED3" gate="G$1" pin="C"/>
 <wire x1="88.9" y1="20.32" x2="96.52" y2="20.32" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="C3" gate="G$1" pin="2"/>
+<wire x1="132.08" y1="116.84" x2="132.08" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="GND12" gate="1" pin="GNDA"/>
+</segment>
 </net>
 <net name="+3V3" class="3">
 <segment>
@@ -12611,13 +12654,13 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <wire x1="60.96" y1="101.6" x2="73.66" y2="101.6" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="121.92" y1="137.16" x2="129.54" y2="137.16" width="0.1524" layer="91"/>
-<wire x1="129.54" y1="137.16" x2="129.54" y2="144.78" width="0.1524" layer="91"/>
+<wire x1="127" y1="137.16" x2="144.78" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="144.78" y1="137.16" x2="144.78" y2="144.78" width="0.1524" layer="91"/>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
-<pinref part="U1" gate="G$1" pin="VCC"/>
 <pinref part="C2" gate="G$1" pin="1"/>
-<wire x1="129.54" y1="137.16" x2="129.54" y2="134.62" width="0.1524" layer="91"/>
-<junction x="129.54" y="137.16"/>
+<wire x1="144.78" y1="137.16" x2="144.78" y2="134.62" width="0.1524" layer="91"/>
+<junction x="144.78" y="137.16"/>
+<pinref part="IC2" gate="G$1" pin="OUT"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="VDD"/>
@@ -12645,19 +12688,19 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <segment>
 <wire x1="66.04" y1="137.16" x2="71.12" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="137.16" x2="71.12" y2="144.78" width="0.1524" layer="91"/>
-<wire x1="104.14" y1="137.16" x2="88.9" y2="137.16" width="0.1524" layer="91"/>
 <junction x="71.12" y="137.16"/>
 <pinref part="P+1" gate="1" pin="+5V"/>
 <pinref part="CN1" gate="G$1" pin="2"/>
-<pinref part="U1" gate="G$1" pin="IN"/>
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="88.9" y1="137.16" x2="76.2" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="137.16" x2="71.12" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="134.62" x2="76.2" y2="137.16" width="0.1524" layer="91"/>
-<pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="91.44" y1="127" x2="88.9" y2="127" width="0.1524" layer="91"/>
-<wire x1="88.9" y1="127" x2="88.9" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="88.9" y1="132.08" x2="88.9" y2="137.16" width="0.1524" layer="91"/>
 <junction x="76.2" y="137.16"/>
+<pinref part="R1" gate="G$1" pin="1"/>
+<wire x1="88.9" y1="132.08" x2="91.44" y2="132.08" width="0.1524" layer="91"/>
+<pinref part="IC2" gate="G$1" pin="IN"/>
+<wire x1="104.14" y1="137.16" x2="88.9" y2="137.16" width="0.1524" layer="91"/>
 <junction x="88.9" y="137.16"/>
 </segment>
 <segment>
@@ -12686,13 +12729,6 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <pinref part="CN4" gate="G$1" pin="1"/>
 <wire x1="162.56" y1="43.18" x2="165.1" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="P+3" gate="1" pin="+5V"/>
-</segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="101.6" y1="127" x2="104.14" y2="127" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="EN"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -12903,6 +12939,20 @@ Standard SMD solder jumper. Used to automate production. Two varients : Normally
 <pinref part="R7" gate="G$1" pin="2"/>
 <pinref part="LED3" gate="G$1" pin="A"/>
 <wire x1="106.68" y1="20.32" x2="104.14" y2="20.32" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$2" class="0">
+<segment>
+<pinref part="R1" gate="G$1" pin="2"/>
+<pinref part="IC2" gate="G$1" pin="!EN"/>
+<wire x1="101.6" y1="132.08" x2="104.14" y2="132.08" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$25" class="0">
+<segment>
+<pinref part="IC2" gate="G$1" pin="NC/FB"/>
+<pinref part="C3" gate="G$1" pin="1"/>
+<wire x1="127" y1="127" x2="132.08" y2="127" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

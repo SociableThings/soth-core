@@ -192,6 +192,33 @@
     <Compile Include="I2C.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="pb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pb_common.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pb_common.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pb_decode.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pb_decode.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pb_encode.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pb_encode.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="soth.pb.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="soth.pb.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SothCore.c">
       <SubType>compile</SubType>
     </Compile>
