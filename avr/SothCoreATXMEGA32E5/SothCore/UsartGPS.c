@@ -5,10 +5,12 @@
  */ 
 
 #include <avr/io.h>
+#include <util/delay.h>
 #include <stdlib.h>
 #include "UsartGPS.h"
 #include "suart.h"
 #include "UsartCommunication.h"
+#include "SothCore.h"
 #include "xprintf.h"
 
 // Prototypes
@@ -20,6 +22,16 @@ NMEA_GPRMC getGPRMCInfo();
 void initUsartGPS()
 {
 	// nop
+}
+
+void powerOnGPS()
+{
+    _cbi(SUSART_PORT_OUT, SUARTT_CTRL_PIN);
+}
+
+void powerOffGPS()
+{
+    _sbi(SUSART_PORT_OUT, SUARTT_CTRL_PIN);
 }
 
 void getGPSLine(char* str, const uint8_t length)
@@ -73,6 +85,7 @@ NMEA_GPRMC getGPRMCInfo()
 	int latlon_int;
 	
 	getGPRMCLine(str, SUART_BUFFER_LENGTH);
+    xprintf("%s", str);
 	
 	for(i=0; i<GPRMC_LENGTH; i++){
 		dataIndex = 0;

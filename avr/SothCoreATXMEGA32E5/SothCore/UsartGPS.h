@@ -28,6 +28,8 @@ typedef struct
 } NMEA_GPRMC;
 
 void initUsartGPS();
+void powerOnGPS();
+void powerOffGPS();
 void getGPRMCInfoAsJson(char*);
 
 #endif /* USART_GPS_H_ */

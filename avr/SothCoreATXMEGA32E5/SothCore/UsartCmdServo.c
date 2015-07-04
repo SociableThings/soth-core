@@ -7,9 +7,8 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "UsartCmdServo.h"
-#include "xprintf.h"
 #include "SothCore.h"
-
+#include "xprintf.h"
 
 void initUsartCmdServo()
 {

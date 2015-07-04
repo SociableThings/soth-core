@@ -14,7 +14,7 @@
 #include <avr/interrupt.h>  
 #include "SothCore.h"
 #include "UsartCommunication.h"
-//#include "UsartGPS.h"
+#include "UsartGPS.h"
 //#include "I2C.h"
 #include "UsartCmdServo.h"
 #include "xprintf.h"
@@ -39,7 +39,7 @@ int main(void)
 	initPort();
 	initClock();
 	initUsartComm();
-	//initUsartGPS();
+	initUsartGPS();
     //initI2C();
 	initUsartCmdServo();
 
@@ -50,7 +50,8 @@ int main(void)
     _delay_ms(1000);
 
     // LED test
-    /*while(1){
+    /*
+    while(1){
         offLedStatus();
         _delay_ms(1000);
         onLedStatus();
@@ -58,8 +59,8 @@ int main(void)
         xprintf("hogege\r\n");
         //_delay_ms(1000);
         //xprintf("R,1\r\n");
-    }*/
-
+    }
+    */
 
     // Servo test
     /*
@@ -77,10 +78,11 @@ int main(void)
 
     _delay_ms(2000);
 
-    setGoalPositionForAllServos(-100, -100, -100, -100, CENTER_YAW);
+    //setGoalPositionForAllServos(-100, -100, -100, -100, CENTER_YAW);
+    setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, LEFT_YAW);
 
     //setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW);
-    _delay_ms(2000);
+    _delay_ms(20000);
     
     for(int8_t i=0; i<5; i++)
     {
@@ -122,8 +124,9 @@ int main(void)
         _delay_ms(WAIT_TIME);
     }*/
 
-    /*
-    // GPS test
+    
+    /*// GPS test
+    powerOnGPS();
     while(1)
     {
 		onLedStatus();
@@ -132,11 +135,11 @@ int main(void)
 		_delay_ms(100);
         
         getGPRMCInfoAsJson(jsonString);
-        sendStringToComm(jsonString);
+        //sendStringToComm(jsonString);
 
         _delay_ms(1000);
-    }
-    */
+    }*/
+    
 
     /*
     // I2C test
@@ -247,7 +250,7 @@ void initPort()
     //            ||||+---- PC3(13): Eye LED(Red)
     //            |||+----- PC4(12): Eye LED(Green)
     //            ||+------ PC5(11): Eye LED(Blue)
-    //            |+------- PC6(10): RXC0 Command Servo (Single wire half duplex)
+    //            |+------- PC6(10): RXC0 Command Servo (One wire half duplex)
     //            +-------- PC7( 9): Status LED(Yellow)
 	PORTC_DIR = 0b11111110;
 	PORTC_OUT = 0b11111110;
@@ -258,12 +261,19 @@ void initPort()
     //            ||||||+-- PD1(27): Port of Bluetooth Connect LED(Green)
     //            |||||+--- PD2(26): RXD0 Bluetooth SPP
     //            ||||+---- PD3(25): TXD0 Bluetooth SPP
-    //            |||+----- PD4(24): Power Control of GPS
+    //            |||+----- PD4(24): Power Control of GPS (Active low)
     //            ||+------ PD5(23): Software UART RX for GPS
     //            |+------- PD6(22): NC
     //            +-------- PD7(21): NC
     PORTD_DIR = 0b11011000;
-	PORTD_OUT = 0b11011000;
+	PORTD_OUT = 0b11001000;
 
 	offLedStatus();
+    powerOffGPS();
+
+    // Virtual Port
+    // VPORT0: Virtual Port A
+    // VPORT1: Virtual Port C
+    // VPORT2: Virtual Port D
+    // VPORT3: Virtual Port R
 }

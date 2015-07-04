@@ -117,6 +117,9 @@
 #define CMD_SERVO_REVERSE       1
 #define CMD_SERVO_NOT_REVERSE   0
 
+// Servo USART
+#define USART_SERVO_PIN 6
+
 
 typedef struct servo_status {
     int16_t position;        // * 1/10 degree

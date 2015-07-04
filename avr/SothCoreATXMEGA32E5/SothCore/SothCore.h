@@ -8,7 +8,6 @@
 #ifndef SOTH_CORE_H_
 #define SOTH_CORE_H_
 
-
 // Universal macro
 #define nop()           __asm__ __volatile__ ("nop")
 #define _sbi(port, bit) (port) |= (1 << (bit))
@@ -27,12 +26,9 @@
 #define USART_COMMUNICATION_RXD_PIN 2
 #define USART_COMMUNICATION_TXD_PIN 3
 
-// Servo USART
-#define USART_SERVO_PIN 6
-
 // Software USART
-#define SUSART_PORT_OUT VPORT3_OUT
-#define SUSART_PORT_IN  VPORT3_IN
+#define SUSART_PORT_OUT VPORT2_OUT  // PORTD
+#define SUSART_PORT_IN  VPORT2_IN   // PORTD
 #define SUSART_RXD_PIN  5
 #define SUARTT_CTRL_PIN 4
 

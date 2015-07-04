@@ -25,7 +25,7 @@
 #include "SothCore.h"
 .list
 
-#define	BPS	33	/* Bit delay. (see above) */
+#define	BPS	68	/* Bit delay. (see above) */
 
 #define	TXREG	_SFR_IO_ADDR(SUSART_PORT_OUT)	/* MISO: Port and bit position */
 #define	TXBIT	SUSART_TXD_PIN
@@ -34,7 +34,7 @@
 
 //#define USE_OUTPUT	    /* Remove this when output functions are not needed */
 #define USE_INPUT	    /* Remove this when input functions are not needed */
-#define USE_STRFUNCS	/* Remove this when string functions are not needed */
+//#define USE_STRFUNCS	/* Remove this when string functions are not needed */
 
 
 #ifdef SPM_PAGESIZE
