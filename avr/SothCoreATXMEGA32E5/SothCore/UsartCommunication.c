@@ -5,8 +5,10 @@
  */ 
 
 #include <avr/io.h>
+#include <util/delay.h>
 #include "UsartCommunication.h"
 #include "xprintf.h"
+#include "SothCore.h"
 
 void initUsartComm()
 {
@@ -20,6 +22,11 @@ void initUsartComm()
 
     // initialization for xprintf
     xdev_out(sendCharacterToComm);
+
+    _delay_ms(200);
+    enableResetBluetooth();
+    _delay_ms(200);
+    disableResetBluetooth();
 }
 
 void sendCharacterToComm(const char c)

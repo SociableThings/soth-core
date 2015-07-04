@@ -16,11 +16,8 @@
 #include "UsartCommunication.h"
 //#include "UsartGPS.h"
 //#include "I2C.h"
-//#include "UsartCmdServo.h"
+#include "UsartCmdServo.h"
 #include "xprintf.h"
-//#include "pb_decode.h"
-//#include "pb_encode.h"
-//#include "soth.pb.h"
 
 #define WAIT_TIME 150
 #define UP_ANGLE 900
@@ -37,39 +34,31 @@ int main(void)
 {	
 	char jsonString[1000];
     uint8_t servoData[200];
-	
+
     // Initialization
 	initPort();
 	initClock();
 	initUsartComm();
 	//initUsartGPS();
     //initI2C();
-	//initUsartCmdServo();
+	initUsartCmdServo();
 
     // Enable interrupt
     PMIC_CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEX_bm;  // enable high/middle level interrupt executing
     sei();
-	
-    _delay_ms(200);
-    enableResetBluetooth();
-	_delay_ms(200);
-    disableResetBluetooth();
-    //xprintf("$$$");
+
     _delay_ms(1000);
-    //xprintf("SF,1\r\n");
-    //xprintf("SN,SothBon\r\n");
-    //xprintf("R,1\r\n");
 
     // LED test
-    while(1){
+    /*while(1){
         offLedStatus();
         _delay_ms(1000);
         onLedStatus();
         _delay_ms(1000);
-        xprintf("aaa");
+        xprintf("hogege\r\n");
         //_delay_ms(1000);
         //xprintf("R,1\r\n");
-    }
+    }*/
 
 
     // Servo test
@@ -90,20 +79,16 @@ int main(void)
 
     setGoalPositionForAllServos(-100, -100, -100, -100, CENTER_YAW);
 
-    _delay_ms(3000);
-
-    onLedStatus();
-
+    //setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW);
     _delay_ms(2000);
-
-    setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW);
-    _delay_ms(2000);
-
-    //getServoStatus(5);
-	
     
     for(int8_t i=0; i<5; i++)
     {
+        //onLedStatus();
+        //getServoStatus(1);
+        //offLedStatus();
+        //_delay_ms(2000);
+
         setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, CENTER_YAW);
 
 		_delay_ms(WAIT_TIME);	    
@@ -262,10 +247,11 @@ void initPort()
     //            ||||+---- PC3(13): Eye LED(Red)
     //            |||+----- PC4(12): Eye LED(Green)
     //            ||+------ PC5(11): Eye LED(Blue)
-    //            |+------- PC6(10): TXC0 Command Servo
+    //            |+------- PC6(10): RXC0 Command Servo (Single wire half duplex)
     //            +-------- PC7( 9): Status LED(Yellow)
 	PORTC_DIR = 0b11111110;
 	PORTC_OUT = 0b11111110;
+    PORTC_REMAP = 0b00010000; // Remap USARTC0 from PC0-3 to PC4-7
 	
     // PORTD:     11011000
     //            |||||||+- PD0(28): Port of Bluetooth Connected LED(Red)

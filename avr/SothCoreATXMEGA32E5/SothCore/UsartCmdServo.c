@@ -8,27 +8,31 @@
 #include <util/delay.h>
 #include "UsartCmdServo.h"
 #include "xprintf.h"
+#include "SothCore.h"
 
 
 void initUsartCmdServo()
 {
 	// USARTCO, 115.2kbps, -0.08%
 	// BSEL:11, BSCALE:-7
-	USARTD0_BAUDCTRLA = 11;
-	USARTD0_BAUDCTRLB = USART_BSCALE3_bm | USART_BSCALE0_bm;
-	
+	USARTC0_BAUDCTRLA = 11;
+	USARTC0_BAUDCTRLB = USART_BSCALE3_bm | USART_BSCALE0_bm;
+
 	disableUsartCmdServoRx();
-	USARTD0_CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_CHSIZE_8BIT_gc | USART_PMODE_DISABLED_gc;
+
+	USARTC0_CTRLC = USART_CMODE_ASYNCHRONOUS_gc | USART_CHSIZE_8BIT_gc | USART_PMODE_DISABLED_gc;
 }
 
 void enableUsartCmdServoRx()
 {
-    USARTD0_CTRLB = USART_RXEN_bm | USART_TXEN_bm | USART_CLK2X_bm;
+    USARTC0_CTRLB = USART_ONEWIRE_bm | USART_RXEN_bm | USART_CLK2X_bm;
+    _cbi(PORTC_DIR, USART_SERVO_PIN);
 }
 
 void disableUsartCmdServoRx()
 {
-    USARTD0_CTRLB = USART_TXEN_bm | USART_CLK2X_bm;
+    USARTC0_CTRLB = USART_ONEWIRE_bm | USART_TXEN_bm | USART_CLK2X_bm;
+    _sbi(PORTC_DIR, USART_SERVO_PIN);
 }
 
 uint8_t recieveResponseCmdServo(uint8_t* data)
@@ -38,7 +42,7 @@ uint8_t recieveResponseCmdServo(uint8_t* data)
     uint8_t xor = 0;
     
     // Wait until TX buffer empty
-    loop_until_bit_is_set(USARTD0.STATUS, USART_DREIF_bp);
+    loop_until_bit_is_set(USARTC0.STATUS, USART_DREIF_bp);
 
     // Wait 50us
     _delay_us(50);
@@ -69,9 +73,9 @@ uint8_t recieveResponseCmdServo(uint8_t* data)
 
     totalLength = 7+data[5]+1;
 
-    for(i=0; i<totalLength; i++){
-        xprintf("data[%d]: 0x%X", i, data[i]);
-    }
+    //for(i=0; i<totalLength; i++){
+    //    xprintf("data[%d]: 0x%X\r\n", i, data[i]);
+    //}
 
     xor = data[2];
     for(i=3; i<totalLength-1; i++){
@@ -90,14 +94,14 @@ uint8_t recieveResponseCmdServo(uint8_t* data)
 
 uint8_t getDataCmdServo()
 {
-    loop_until_bit_is_set(USARTD0.STATUS, USART_RXCIF_bp);
-    return USARTD0.DATA;
+    loop_until_bit_is_set(USARTC0.STATUS, USART_RXCIF_bp);
+    return USARTC0.DATA;
 }
 
 void sendDataToCmdServo(const char c)
 {
-	loop_until_bit_is_set(USARTD0.STATUS, USART_DREIF_bp);
-	USARTD0.DATA = c;
+	loop_until_bit_is_set(USARTC0.STATUS, USART_DREIF_bp);
+	USARTC0.DATA = c;
 
     //xprintf("%X\n", (uint8_t)c);
 }
@@ -266,7 +270,7 @@ servo_status_t getServoStatus(uint8_t id)
     status.volts = (uint16_t)(data[CMD_SERVO_DATA_INDEX+11] << 8 | data[CMD_SERVO_DATA_INDEX+10]) * 10;
 
     xprintf(
-        "position: %d, time: %d, speed: %d, current: %d, temp: %d, volts: %d",
+        "position: %d, time: %d, speed: %d, current: %d, temp: %d, volts: %d\r\n",
         status.position,
         status.time,
         status.speed,
