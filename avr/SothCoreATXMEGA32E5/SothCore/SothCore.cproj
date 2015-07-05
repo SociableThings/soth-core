@@ -186,6 +186,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BME280.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="BME280.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="I2C.c">
       <SubType>compile</SubType>
     </Compile>

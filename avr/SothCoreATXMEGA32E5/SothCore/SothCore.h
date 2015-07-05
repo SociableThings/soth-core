@@ -8,6 +8,9 @@
 #ifndef SOTH_CORE_H_
 #define SOTH_CORE_H_
 
+// System Clock
+#define F_CPU 1000000UL
+
 // Universal macro
 #define nop()           __asm__ __volatile__ ("nop")
 #define _sbi(port, bit) (port) |= (1 << (bit))

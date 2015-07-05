@@ -4,10 +4,6 @@
  * Author: Hideyuki Takei <hide@soth.io>
  */
 
-
-// System Clock
-#define F_CPU 1000000UL
-
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/pgmspace.h>
@@ -15,7 +11,8 @@
 #include "SothCore.h"
 #include "UsartCommunication.h"
 #include "UsartGPS.h"
-//#include "I2C.h"
+#include "I2C.h"
+#include "BME280.h"
 #include "UsartCmdServo.h"
 #include "xprintf.h"
 
@@ -29,6 +26,8 @@
 // Prototypes
 void initClock();
 void initPort();
+void testI2C(uint8_t length, uint8_t* data);
+void onReadSensor(double temperature, double pressure, double humidity);
 
 int main(void)
 {	
@@ -40,7 +39,7 @@ int main(void)
 	initClock();
 	initUsartComm();
 	initUsartGPS();
-    //initI2C();
+    initI2C();
 	initUsartCmdServo();
 
     // Enable interrupt
@@ -141,10 +140,10 @@ int main(void)
     }*/
     
 
-    /*
+    
     // I2C test
     xprintf("write\n");
-    uint8_t data[] = {0x20, 0x90};
+    /*uint8_t data[] = {0x20, 0x90};
     addQueue(0b10111000, 2, data, 0, testI2C);
 
     _delay_ms(2000);
@@ -156,19 +155,29 @@ int main(void)
     addQueue(0b10111000, 1, data3, 1, testI2C);
 
     uint8_t data4[] = {0x2A};
-    addQueue(0b10111000, 1, data4, 1, testI2C);
+    addQueue(0b10111000, 1, data4, 1, testI2C);*/
+
+    _delay_ms(10000);
+
+    initBME280();
 
     while(1){
-        _delay_ms(1000);
+        //uint8_t address[] = {0xD0};
+        //addQueue(0b11101100, 1, address, 1, testI2C);
+        //address[0] = 0x75;
+        //addQueue(0b11010000, 1, address, 1, testI2C);
+        readTemperaturePressureHumidity(onReadSensor);
+
+        _delay_ms(5000);
 
         onLedStatus();
         _delay_ms(100);
         offLedStatus();
         _delay_ms(100);
     }
-    */
+    
 
-    /*
+    /*// Proto3 test
     uint8_t buffer[128];
     size_t message_length;
     bool status;
@@ -212,6 +221,19 @@ int main(void)
         _delay_ms(500);
         xprintf("Your lucky number was %d!\n", req2.robot_id);
     }*/
+}
+
+void testI2C(uint8_t length, uint8_t* data)
+{
+    xprintf("Recv data from I2C\n");
+    for(uint8_t i=0; i<length; i++){
+        xprintf("0x%02X\n", data[i]);
+    }
+}
+
+void onReadSensor(double temperature, double pressure, double humidity)
+{
+    xprintf("Recv data from I2C\n");
 }
 
 void initClock()
