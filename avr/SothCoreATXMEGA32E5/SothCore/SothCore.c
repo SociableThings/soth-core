@@ -27,7 +27,6 @@
 // Prototypes
 void initClock();
 void initPort();
-void testI2C(uint8_t length, uint8_t* data);
 void onReadSensor(float temperature, float pressure, float humidity);
 
 int main(void)
@@ -223,14 +222,6 @@ int main(void)
     }*/
 }
 
-void testI2C(uint8_t length, uint8_t* data)
-{
-    xprintf("Recv data from I2C\n");
-    for(uint8_t i=0; i<length; i++){
-        xprintf("0x%02X\n", data[i]);
-    }
-}
-
 void onReadSensor(float temperature, float pressure, float humidity)
 {
     char temperatureString[20], pressureString[20], humidityString[20];
@@ -240,7 +231,7 @@ void onReadSensor(float temperature, float pressure, float humidity)
     dtostrf(temperature, 2, 2, temperatureString);
     dtostrf(pressure, 2, 2, pressureString);
     dtostrf(humidity, 2, 2, humidityString);
-    xprintf("Temperature: %sdeg, Pressure: %shPa, %s%%\n", temperatureString, pressureString, humidityString);
+    xprintf("Temperature: %sdeg, Pressure: %shPa, Humidity: %s%%\n", temperatureString, pressureString, humidityString);
 }
 
 void initClock()

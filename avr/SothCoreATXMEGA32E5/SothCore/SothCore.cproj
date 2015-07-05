@@ -198,6 +198,12 @@
     <Compile Include="I2C.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MPU9150.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MPU9150.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="pb.h">
       <SubType>compile</SubType>
     </Compile>

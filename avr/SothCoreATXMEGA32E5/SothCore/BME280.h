@@ -8,6 +8,7 @@
 #ifndef BME280_H_
 #define BME280_H_
 
+
 #define BME280_ADDRESS 0b11101100
 #define BME280_TRIM_DATA_LENGTH 32
 

@@ -4,6 +4,7 @@
  * Author:    Hideyuki Takei <hide@soth.io>
  * Reference: http://trac.switch-science.com/wiki/BME280
  *            https://github.com/SWITCHSCIENCE/BME280/blob/master/Arduino/BME280_I2C/BME280_I2C.ino
+ *            https://developer.mbed.org/users/MACRUM/code/BME280/
  */ 
 
 #include <avr/io.h>
@@ -32,11 +33,11 @@ int32_t tFine;
 void (*onReadDataFunction)(double temperature, double pressure, double humidity);
 
 // prototypes
-void _onReadTrimData(uint8_t length, uint8_t* data);
-void _onReadRawData(uint8_t length, uint8_t* data);
-float _readTemperature(uint32_t rawTemperature);
-float _readPressure(uint32_t rawPressur);
-float _readHumidity(uint32_t rawHumidity);
+void onReadTrimData(uint8_t length, uint8_t* data);
+void onReadRawData(uint8_t length, uint8_t* data);
+float readTemperature(uint32_t rawTemperature);
+float readPressure(uint32_t rawPressur);
+float readHumidity(uint32_t rawHumidity);
 
 void initBME280()
 {
@@ -71,13 +72,13 @@ void initBME280()
     // Read trim
     bme280TrimDataIndex = 0;
     data[0] = 0x88;
-    addQueue(BME280_ADDRESS, 1, data, 24, _onReadTrimData);
+    addQueue(BME280_ADDRESS, 1, data, 24, onReadTrimData);
 
     data[0] = 0xA1;
-    addQueue(BME280_ADDRESS, 1, data, 1, _onReadTrimData);
+    addQueue(BME280_ADDRESS, 1, data, 1, onReadTrimData);
 
     data[0] = 0xE1;
-    addQueue(BME280_ADDRESS, 1, data, 7, _onReadTrimData);
+    addQueue(BME280_ADDRESS, 1, data, 7, onReadTrimData);
 }
 
 void readTemperaturePressureHumidity(void (*func)(double temperature, double pressure, double humidity))
@@ -87,10 +88,10 @@ void readTemperaturePressureHumidity(void (*func)(double temperature, double pre
     onReadDataFunction = func;
     
     data[0] = 0xF7;
-    addQueue(BME280_ADDRESS, 1, data, 8, _onReadRawData);
+    addQueue(BME280_ADDRESS, 1, data, 8, onReadRawData);
 }
 
-void _onReadTrimData(uint8_t length, uint8_t* data)
+void onReadTrimData(uint8_t length, uint8_t* data)
 {
     for(uint8_t i=0; i<length; i++){
         bme280TrimData[bme280TrimDataIndex++] = data[i];
@@ -122,7 +123,7 @@ void _onReadTrimData(uint8_t length, uint8_t* data)
     }
 }
 
-void _onReadRawData(uint8_t length, uint8_t* data)
+void onReadRawData(uint8_t length, uint8_t* data)
 {
     uint32_t rawTemperature, rawPressure, rawHumidity;
     float temperature, pressure, humidity;
@@ -139,9 +140,9 @@ void _onReadRawData(uint8_t length, uint8_t* data)
     //ultoa(rawPressure, p, 16);
     //xprintf("Pressure: %s\n", p);
 
-    temperature = _readTemperature(rawTemperature);
-    pressure    = _readPressure(rawPressure);
-    humidity    = _readHumidity(rawHumidity);
+    temperature = readTemperature(rawTemperature);
+    pressure    = readPressure(rawPressure);
+    humidity    = readHumidity(rawHumidity);
 
     if(onReadDataFunction){
         // callback
@@ -150,7 +151,7 @@ void _onReadRawData(uint8_t length, uint8_t* data)
     }
 }
 
-float _readTemperature(uint32_t rawTemperature)
+float readTemperature(uint32_t rawTemperature)
 {
     int32_t temp;
     float tempf;
@@ -168,7 +169,7 @@ float _readTemperature(uint32_t rawTemperature)
     return tempf;
 }
 
-float _readPressure(uint32_t rawPressure)
+float readPressure(uint32_t rawPressure)
 {
     int32_t var1, var2;
     uint32_t press;
@@ -198,7 +199,7 @@ float _readPressure(uint32_t rawPressure)
     return (pressf/100.0f);
 }
 
-float _readHumidity(uint32_t rawHumidity)
+float readHumidity(uint32_t rawHumidity)
 {
     float humf;    
     int32_t vX1;
