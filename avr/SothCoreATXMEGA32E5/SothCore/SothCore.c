@@ -8,6 +8,7 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 #include <avr/interrupt.h>  
+#include <stdlib.h>
 #include "SothCore.h"
 #include "UsartCommunication.h"
 #include "UsartGPS.h"
@@ -27,7 +28,7 @@
 void initClock();
 void initPort();
 void testI2C(uint8_t length, uint8_t* data);
-void onReadSensor(double temperature, double pressure, double humidity);
+void onReadSensor(float temperature, float pressure, float humidity);
 
 int main(void)
 {	
@@ -142,7 +143,6 @@ int main(void)
 
     
     // I2C test
-    xprintf("write\n");
     /*uint8_t data[] = {0x20, 0x90};
     addQueue(0b10111000, 2, data, 0, testI2C);
 
@@ -157,7 +157,7 @@ int main(void)
     uint8_t data4[] = {0x2A};
     addQueue(0b10111000, 1, data4, 1, testI2C);*/
 
-    _delay_ms(10000);
+    _delay_ms(1000);
 
     initBME280();
 
@@ -231,9 +231,16 @@ void testI2C(uint8_t length, uint8_t* data)
     }
 }
 
-void onReadSensor(double temperature, double pressure, double humidity)
+void onReadSensor(float temperature, float pressure, float humidity)
 {
-    xprintf("Recv data from I2C\n");
+    char temperatureString[20], pressureString[20], humidityString[20];
+    
+    xprintf("## Recv sensor\n");
+    
+    dtostrf(temperature, 2, 2, temperatureString);
+    dtostrf(pressure, 2, 2, pressureString);
+    dtostrf(humidity, 2, 2, humidityString);
+    xprintf("Temperature: %sdeg, Pressure: %shPa, %s%%\n", temperatureString, pressureString, humidityString);
 }
 
 void initClock()

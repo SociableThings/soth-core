@@ -26,7 +26,7 @@ int16_t  digP2, digP3, digP4, digP5, digP6, digP7, digP8, digP9;
 uint16_t digH1, digH3;
 int16_t  digH2, digH4, digH5, digH6;
 
-signed long int   tFine;
+int32_t tFine;
 
 
 void (*onReadDataFunction)(double temperature, double pressure, double humidity);
@@ -34,27 +34,27 @@ void (*onReadDataFunction)(double temperature, double pressure, double humidity)
 // prototypes
 void _onReadTrimData(uint8_t length, uint8_t* data);
 void _onReadRawData(uint8_t length, uint8_t* data);
-signed long int _calibrationTemperature(unsigned long int adcTemperature);
-unsigned long int _calibrationPressure(unsigned long int adcPressur);
-unsigned long int _calibrationHumidity(unsigned long int adcHumidity);
+float _readTemperature(uint32_t rawTemperature);
+float _readPressure(uint32_t rawPressur);
+float _readHumidity(uint32_t rawHumidity);
 
 void initBME280()
 {
     uint8_t data[2];
 
-    uint8_t osrsT = 4;     // Temperature oversampling x 8
-    uint8_t osrsP = 4;     // Pressure oversampling x 8
-    uint8_t osrsH = 4;     // Humidity oversampling x 8
-    uint8_t mode = 3;       // Normal mode
+    uint8_t osrsT = 3;     // Temperature oversampling x 4
+    uint8_t osrsP = 3;     // Pressure oversampling x 4
+    uint8_t osrsH = 3;     // Humidity oversampling x 4
+    uint8_t mode = 3;      // Normal mode
     uint8_t tSb = 5;       // Tstandby 1000ms
-    uint8_t filter = 1;     // Filter 2 coeffient
+    uint8_t filter = 3;    // Filter 8 coeffient
     uint8_t spi3wEn = 0;   // 3-wire SPI Disable
     
     uint8_t ctrlMeasReg = (osrsT << 5) | (osrsP << 2) | mode;
     uint8_t configReg    = (tSb << 5) | (filter << 2) | spi3wEn;
     uint8_t ctrlHumReg  = osrsH;
 
-    xprintf("meas: %X, config: %X, hum: %X\n", ctrlMeasReg, configReg, ctrlHumReg);
+    //xprintf("meas: %X, config: %X, hum: %X\n", ctrlMeasReg, configReg, ctrlHumReg);
 
     data[0] = 0xF2;
     data[1] = ctrlHumReg;
@@ -124,90 +124,95 @@ void _onReadTrimData(uint8_t length, uint8_t* data)
 
 void _onReadRawData(uint8_t length, uint8_t* data)
 {
-    for(uint8_t i=0; i<length; i++){
-        xprintf("rawData[%d] = 0x%02X\n", i, data[i]);
+    uint32_t rawTemperature, rawPressure, rawHumidity;
+    float temperature, pressure, humidity;
+
+    //for(uint8_t i=0; i<length; i++){
+    //    xprintf("rawData[%d] = 0x%02X\n", i, data[i]);
+    //}
+
+    rawPressure    = (uint32_t)(((uint32_t)data[0] << 12) | ((uint32_t)data[1] << 4) | ((uint32_t)data[2] >> 4));
+    rawTemperature = (uint32_t)(((uint32_t)data[3] << 12) | ((uint32_t)data[4] << 4) | ((uint32_t)data[5] >> 4));
+    rawHumidity    = (uint32_t)(((uint32_t)data[6] << 8) | (uint32_t)data[7]);
+    
+    //char p[40];
+    //ultoa(rawPressure, p, 16);
+    //xprintf("Pressure: %s\n", p);
+
+    temperature = _readTemperature(rawTemperature);
+    pressure    = _readPressure(rawPressure);
+    humidity    = _readHumidity(rawHumidity);
+
+    if(onReadDataFunction){
+        // callback
+        onReadDataFunction(temperature, pressure, humidity);
+        onReadDataFunction = NULL;
     }
-
-    double actTemperature = 0.0, actPressure = 0.0, actHumidity = 0.0;
-    signed long int calTemperature;
-    unsigned long int calPressure, calHumidity;
-    uint32_t rawHumidity, rawTemperature, rawPressure;
-
-    rawPressure =    (uint)((data[0] << 12) | (data[1] << 4) | (data[2] >> 4));
-    rawTemperature = (uint32_t)((data[3] << 12) | (data[4] << 4) | (data[5] >> 4));
-    rawHumidity  =   (uint32_t)((data[6] << 8) | data[7]);
-
-    //char p[20];
-    //ultoa(rawPressure, p, 10);
-    xprintf("Pressure: %016b\n", (rawPressure>>16)&0xFFFF);
-
-    calTemperature = _calibrationTemperature(rawTemperature);
-    //calPressure = _calibrationPressure(rawPressure);
-    //calHumidity = _calibrationHumidity(rawHumidity);
-
-    actTemperature = (double)calTemperature / 100.0;
-    //actPressure = (double)calPressure / 100.0;
-    //actHumidity = (double)calHumidity / 1024.0;
-
-    char tmp[20], prs[20], hum[20];
-    dtostrf(actTemperature, 10, 3, tmp);
-    dtostrf(actPressure, 10, 3, prs);
-    dtostrf(actHumidity, 10, 3, hum);
-    xprintf("Temperature: %s deg, Pressure: %s hPa, Humidity: %s %\n", tmp, prs, hum);
 }
 
-signed long int _calibrationTemperature(unsigned long int adcTemperature)
+float _readTemperature(uint32_t rawTemperature)
 {
-    signed long int var1, var2, T;
-    var1 = (((((signed long int)adcTemperature >> 3) - ((signed long int)digT1 << 1))) * ((signed long int)digT2)) >> 11;
-    var2 = ((((((signed long int)adcTemperature >> 4) - ((signed long int)digT1)) * (((signed long int)adcTemperature >> 4) - ((signed long int)digT1))) >> 12) * ((signed long int)digT3)) >> 14;
+    int32_t temp;
+    float tempf;
 
-    tFine = var1 + var2;
-    T = (tFine * 5 + 128) >> 8;
+    temp =
+        (((((rawTemperature >> 3) - (digT1 << 1))) * digT2) >> 11) +
+        ((((((rawTemperature >> 4) - digT1) * ((rawTemperature >> 4) - digT1)) >> 12) * digT3) >> 14);
 
-    return T;
+    tFine = temp;
+
+    temp = (temp * 5 + 128) >> 8;
+    tempf = (float)temp;
+    tempf = tempf / 100.0f;
+
+    return tempf;
 }
 
-unsigned long int _calibrationPressure(unsigned long int adcPressur)
+float _readPressure(uint32_t rawPressure)
 {
-    signed long int var1, var2;
-    unsigned long int P;
-    var1 = (((signed long int)tFine)>>1) - (signed long int)64000;
-    var2 = (((var1>>2) * (var1>>2)) >> 11) * ((signed long int)digP6);
-    var2 = var2 + ((var1*((signed long int)digP5))<<1);
-    var2 = (var2>>2)+(((signed long int)digP4)<<16);
-    var1 = (((digP3 * (((var1>>2)*(var1>>2)) >> 13)) >>3) + ((((signed long int)digP2) * var1)>>1))>>18;
-    var1 = ((((32768+var1))*((signed long int)digP1))>>15);
-    if (var1 == 0)
-    {
+    int32_t var1, var2;
+    uint32_t press;
+    float pressf;
+    
+    var1 = (tFine >> 1) - 64000;
+    var2 = (((var1 >> 2) * (var1 >> 2)) >> 11) * digP6;
+    var2 = var2 + ((var1 * digP5) << 1);
+    var2 = (var2 >> 2) + (digP4 << 16);
+    var1 = (((digP3 * (((var1 >> 2)*(var1 >> 2)) >> 13)) >> 3) + ((digP2 * var1) >> 1)) >> 18;
+    var1 = ((32768 + var1) * digP1) >> 15;
+    if (var1 == 0) {
         return 0;
     }
-    P = (((unsigned long int)(((signed long int)1048576)-adcPressur)-(var2>>12)))*3125;
-    if(P<0x80000000)
-    {
-        P = (P << 1) / ((unsigned long int) var1);
+    press = (((1048576 - rawPressure) - (var2 >> 12))) * 3125;
+    if(press < 0x80000000) {
+        press = (press << 1) / var1;
+    } else {
+        press = (press / var1) * 2;
     }
-    else
-    {
-        P = (P / (unsigned long int)var1) * 2;
-    }
-    var1 = (((signed long int)digP9) * ((signed long int)(((P>>3) * (P>>3))>>13)))>>12;
-    var2 = (((signed long int)(P>>2)) * ((signed long int)digP8))>>13;
-    P = (unsigned long int)((signed long int)P + ((var1 + var2 + digP7) >> 4));
-    return P;
+    var1 = ((int32_t)digP9 * ((int32_t)(((press >> 3) * (press >> 3)) >> 13))) >> 12;
+    var2 = (((int32_t)(press >> 2)) * (int32_t)digP8) >> 13;
+    press = (press + ((var1 + var2 + digP7) >> 4));
+    
+    pressf = (float)press;
+
+    return (pressf/100.0f);
 }
 
-unsigned long int _calibrationHumidity(unsigned long int adcHumidity)
+float _readHumidity(uint32_t rawHumidity)
 {
-    signed long int vX1;
+    float humf;    
+    int32_t vX1;
     
-    vX1 = (tFine - ((signed long int)76800));
-    vX1 = (((((adcHumidity << 14) -(((signed long int)digH4) << 20) - (((signed long int)digH5) * vX1)) +
-        ((signed long int)16384)) >> 15) * (((((((vX1 * ((signed long int)digH6)) >> 10) *
-        (((vX1 * ((signed long int)digH3)) >> 11) + ((signed long int) 32768))) >> 10) + (( signed long int)2097152)) *
-        ((signed long int) digH2) + 8192) >> 14));
-    vX1 = (vX1 - (((((vX1 >> 15) * (vX1 >> 15)) >> 7) * ((signed long int)digH1)) >> 4));
+    vX1 = tFine - 76800;
+    vX1 =  (((((rawHumidity << 14) -(((int32_t)digH4) << 20) - (((int32_t)digH5) * vX1)) +
+           ((int32_t)16384)) >> 15) * (((((((vX1 * (int32_t)digH6) >> 10) *
+           (((vX1 * ((int32_t)digH3)) >> 11) + 32768)) >> 10) + 2097152) *
+           (int32_t)digH2 + 8192) >> 14));
+    vX1 = (vX1 - (((((vX1 >> 15) * (vX1 >> 15)) >> 7) * (int32_t)digH1) >> 4));
     vX1 = (vX1 < 0 ? 0 : vX1);
     vX1 = (vX1 > 419430400 ? 419430400 : vX1);
-    return (unsigned long int)(vX1 >> 12);
+    
+    humf = (float)(vX1 >> 12);
+    
+    return (humf/1024.0f);
 }
