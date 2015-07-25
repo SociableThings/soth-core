@@ -14,7 +14,7 @@
 #include "I2C.h"
 #include "xprintf.h"
 
-// Global
+// Variables
 uint8_t bme280TrimDataIndex;
 uint8_t bme280TrimData[BME280_TRIM_DATA_LENGTH];
 
@@ -29,8 +29,8 @@ int16_t  digH2, digH4, digH5, digH6;
 
 int32_t tFine;
 
+void (*onReadDataFunction)(float temperature, float pressure, float humidity);
 
-void (*onReadDataFunction)(double temperature, double pressure, double humidity);
 
 // prototypes
 void onReadTrimData(uint8_t length, uint8_t* data);
@@ -38,6 +38,7 @@ void onReadRawData(uint8_t length, uint8_t* data);
 float readTemperature(uint32_t rawTemperature);
 float readPressure(uint32_t rawPressur);
 float readHumidity(uint32_t rawHumidity);
+
 
 void initBME280()
 {
@@ -81,7 +82,7 @@ void initBME280()
     addQueue(BME280_ADDRESS, 1, data, 7, onReadTrimData);
 }
 
-void readTemperaturePressureHumidity(void (*func)(double temperature, double pressure, double humidity))
+void readTemperaturePressureHumidity(void (*func)(float temperature, float pressure, float humidity))
 {
     uint8_t data[1];
 
