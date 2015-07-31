@@ -100,14 +100,14 @@
 #define CMD_SERVO_NO_DATA 0
 
 // Servo ID
-#define CMD_SERVO_ID_FRONT_RIGHT    1
-#define CMD_SERVO_ID_FRONT_LEFT     2
-#define CMD_SERVO_ID_BACK_RIGHT     3
-#define CMD_SERVO_ID_BACK_LEFT      4
-#define CMD_SERVO_ID_YAW            5
+#define CMD_SERVO_ID_FRONT_RIGHT 1
+#define CMD_SERVO_ID_FRONT_LEFT  2
+#define CMD_SERVO_ID_BACK_RIGHT  3
+#define CMD_SERVO_ID_BACK_LEFT   4
+#define CMD_SERVO_ID_YAW         5
 
-#define CMD_SERVO_ID_DEFAULT        1
-#define CMD_SERVO_COUNT             5
+#define CMD_SERVO_ID_DEFAULT     1
+#define CMD_SERVO_COUNT          5
 
 // Servo limit angle
 #define CMD_SERVO_ANGLE_LIMIT_MIN  -160
