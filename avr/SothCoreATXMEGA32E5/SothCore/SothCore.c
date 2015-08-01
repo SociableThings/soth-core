@@ -16,10 +16,12 @@
 #include "BME280.h"
 #include "UsartCmdServo.h"
 #include "xprintf.h"
+#include "MotionControl.h"
 
-#define WAIT_TIME 150
+#define WAIT_TIME 200
 #define UP_ANGLE 900
 #define DOWN_ANGLE 700
+#define CLOSE_ANGLE 0
 #define RIGHT_YAW 200
 #define LEFT_YAW -200
 #define CENTER_YAW -30
@@ -43,10 +45,13 @@ int main(void)
 	initUsartCmdServo();
 
     // Enable interrupt
-    PMIC_CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEX_bm;  // enable high/middle level interrupt executing
+    PMIC_CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm;  // enable high/middle level interrupt executing
+    //PMIC.CTRL = PMIC_LOLVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_HILVLEN_bm;
     sei();
 
     _delay_ms(1000);
+
+    setStandaloneMotion();
 
     // LED test
     /*
@@ -60,69 +65,6 @@ int main(void)
         //xprintf("R,1\r\n");
     }
     */
-
-    // Servo test
-    /*
-    //changeIdCmdServo(1, 4);
-    //reverseDirection(1, CMD_SERVO_REVERSE);
-    //setAngleLimit(1, CMD_SERVO_ANGLE_LIMIT_MAX, CMD_SERVO_ANGLE_LIMIT_MIN);
-
-    _delay_ms(500);
-	
-    changeTorqueOnForAllServos();
-
-    _delay_ms(2000);
-
-    setGoalPosition(5, CENTER_YAW);
-
-    _delay_ms(2000);
-
-    //setGoalPositionForAllServos(-100, -100, -100, -100, CENTER_YAW);
-    setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, LEFT_YAW);
-
-    //setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW);
-    _delay_ms(20000);
-    
-    for(int8_t i=0; i<5; i++)
-    {
-        //onLedStatus();
-        //getServoStatus(1);
-        //offLedStatus();
-        //_delay_ms(2000);
-
-        setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, CENTER_YAW);
-
-		_delay_ms(WAIT_TIME);	    
-
-        setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, RIGHT_YAW);
-
-        _delay_ms(WAIT_TIME);
-
-        setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, RIGHT_YAW);
-
-        _delay_ms(WAIT_TIME);
-
-        setGoalPositionForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, RIGHT_YAW);
-
-        _delay_ms(WAIT_TIME);
-
-        setGoalPositionForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, CENTER_YAW);
-
-        _delay_ms(WAIT_TIME);
-
-        setGoalPositionForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, LEFT_YAW);
-
-        _delay_ms(WAIT_TIME);
-
-        setGoalPositionForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, LEFT_YAW);
-
-        _delay_ms(WAIT_TIME);
-
-        setGoalPositionForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, LEFT_YAW);
-
-        _delay_ms(WAIT_TIME);
-    }*/
-
     
     /*// GPS test
     powerOnGPS();
@@ -156,6 +98,8 @@ int main(void)
     uint8_t data4[] = {0x2A};
     addQueue(0b10111000, 1, data4, 1, testI2C);*/
 
+    /*
+    // Temperature, pressure, humidity
     _delay_ms(1000);
 
     initBME280();
@@ -173,7 +117,7 @@ int main(void)
         _delay_ms(100);
         offLedStatus();
         _delay_ms(100);
-    }
+    }*/
     
 
     /*// Proto3 test
@@ -219,6 +163,18 @@ int main(void)
         offLedStatus();
         _delay_ms(500);
         xprintf("Your lucky number was %d!\n", req2.robot_id);
+    }*/
+
+    /*
+    // pb test
+    _delay_ms(500);
+    
+    changeTorqueOnForAllServos();
+
+    while(1){
+        //onLedStatus();
+        _delay_ms(500);
+        //offLedStatus();
     }*/
 }
 

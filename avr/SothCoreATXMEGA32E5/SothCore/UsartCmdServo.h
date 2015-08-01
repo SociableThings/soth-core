@@ -148,6 +148,7 @@ void changeIdCmdServo(uint8_t fromId, uint8_t toId);
 void reverseDirection(uint8_t id, uint8_t isReverse);
 void setAngleLimit(uint8_t id, int16_t cwAngleLimit, int16_t ccwAngleLimit);
 void setGoalPositionForAllServos(int16_t position1, int16_t position2, int16_t position3, int16_t position4, int16_t poistion5);
+void setGoalPositionAndTimeForAllServos(int16_t position1, int16_t position2, int16_t position3, int16_t position4, int16_t poistion5, uint16_t time);
 void changeTorqueModeForAllServos(uint8_t mode1, uint8_t mode2, uint8_t mode3, uint8_t mode4, uint8_t mode5);
 void changeTorqueOnForAllServos();
 void changeTorqueOffForAllServos();

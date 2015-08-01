@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-message SetServoPosition {
+message ServoPosition {
   required int32 servo_front_right = 1;
   required int32 servo_front_left = 2;
   required int32 servo_back_right = 3;
@@ -8,9 +8,15 @@ message SetServoPosition {
   required int32 servo_yaw = 5;
 }
 
-message SetLedBrightness {
+message LedBrightness {
   required uint32 red = 1;
   required uint32 green = 2;
   required uint32 blue = 3;
+}
+
+message WeatherData {
+  required float humidity = 1;
+  required float pressure = 2;
+  required float temperature = 3;
 }
 

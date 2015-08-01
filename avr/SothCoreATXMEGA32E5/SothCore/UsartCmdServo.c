@@ -220,7 +220,7 @@ void setAngleLimit(uint8_t id, int16_t cwAngleLimit, int16_t ccwAngleLimit)
 void setGoalPositionForAllServos(int16_t position1, int16_t position2, int16_t position3, int16_t position4, int16_t position5)
 {
     uint8_t data[] = {
-        (uint8_t)1, (uint8_t)(position1), (uint8_t)(position1>>8),
+        (uint8_t)1, (uint8_t)(position1), (uint8_t)(position1>>8), 
         (uint8_t)2, (uint8_t)(position2), (uint8_t)(position2>>8),
         (uint8_t)3, (uint8_t)(position3), (uint8_t)(position3>>8),
         (uint8_t)4, (uint8_t)(position4), (uint8_t)(position4>>8),
@@ -228,6 +228,20 @@ void setGoalPositionForAllServos(int16_t position1, int16_t position2, int16_t p
     };
     // Use long packet
     sendPacket(0, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_GOAL_POSITION_L, 3, CMD_SERVO_COUNT, data);
+}
+
+void setGoalPositionAndTimeForAllServos(int16_t position1, int16_t position2, int16_t position3, int16_t position4, int16_t position5, uint16_t time)
+{
+    uint16_t time10ms = time/10;
+    uint8_t data[] = {
+        (uint8_t)1, (uint8_t)(position1), (uint8_t)(position1>>8), (uint8_t)(time10ms), (uint8_t)(time10ms>>8),
+        (uint8_t)2, (uint8_t)(position2), (uint8_t)(position2>>8), (uint8_t)(time10ms), (uint8_t)(time10ms>>8),
+        (uint8_t)3, (uint8_t)(position3), (uint8_t)(position3>>8), (uint8_t)(time10ms), (uint8_t)(time10ms>>8),
+        (uint8_t)4, (uint8_t)(position4), (uint8_t)(position4>>8), (uint8_t)(time10ms), (uint8_t)(time10ms>>8),
+        (uint8_t)5, (uint8_t)(position5), (uint8_t)(position5>>8), (uint8_t)(time10ms), (uint8_t)(time10ms>>8)
+    };
+    // Use long packet
+    sendPacket(0, CMD_SERVO_SHORT_FLAG_NONE, CMD_SERVO_ADDRESS_GOAL_POSITION_L, 5, CMD_SERVO_COUNT, data);
 }
 
 void changeTorqueModeForAllServos(uint8_t mode1, uint8_t mode2, uint8_t mode3, uint8_t mode4, uint8_t mode5)
