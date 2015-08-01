@@ -249,6 +249,12 @@
     <Compile Include="suart.S">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="TransitionEasing.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TransitionEasing.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="UsartCmdServo.c">
       <SubType>compile</SubType>
     </Compile>
