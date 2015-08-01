@@ -17,6 +17,16 @@
 #define LEFT_YAW -200
 #define CENTER_YAW -30
 
+// prototypes
+void setPositionWithEasing(
+    uint16_t currentPosition1, int16_t diffPosition1,
+    uint16_t currentPosition2, int16_t diffPosition2,
+    uint16_t currentPosition3, int16_t diffPosition3,
+    uint16_t currentPosition4, int16_t diffPosition4,
+    uint16_t currentPosition5, int16_t diffPosition5,
+    uint16_t timeMs
+);
+
 void setStandaloneMotion()
 {
     uint16_t goal;
@@ -37,17 +47,22 @@ void setStandaloneMotion()
     setGoalPosition(5, CENTER_YAW);
 
     while(1){
-        for(uint16_t i=0; i<1000; i++){
-            goal = cubicEaseInOut(i, 300, 400, 1000);
-            setGoalPositionForAllServos(goal, goal, goal, goal, CENTER_YAW);
-            _delay_ms(1);
-        }
-
-        for(uint16_t i=0; i<1000; i++){
-            goal = cubicEaseInOut(i, 700, -400, 1000);
-            setGoalPositionForAllServos(goal, goal, goal, goal, CENTER_YAW);
-            _delay_ms(1);
-        }
+        setPositionWithEasing(
+            300, 400,
+            300, 400,
+            300, 400,
+            300, 400,
+            CENTER_YAW, 0,
+            1000
+        );
+        setPositionWithEasing(
+            700, -400,
+            700, -400,
+            700, -400,
+            700, -400,
+            CENTER_YAW, 0,
+            1000
+        );
     }
 
     _delay_ms(2000);
@@ -152,5 +167,24 @@ void setStandaloneMotion()
         _delay_ms(2000);
         setGoalPositionAndTimeForAllServos(CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CENTER_YAW, 1500);
         _delay_ms(5000);
+    }
+}
+
+void setPositionWithEasing(uint16_t currentPosition1, int16_t diffPosition1,
+                           uint16_t currentPosition2, int16_t diffPosition2,
+                           uint16_t currentPosition3, int16_t diffPosition3,
+                           uint16_t currentPosition4, int16_t diffPosition4,
+                           uint16_t currentPosition5, int16_t diffPosition5,
+                           uint16_t timeMs)
+{
+    for(uint16_t i=0; i<timeMs/10; i++){
+        setGoalPositionForAllServos(
+            cubicEaseInOut(i, currentPosition1, diffPosition1, timeMs/10),
+            cubicEaseInOut(i, currentPosition2, diffPosition2, timeMs/10),
+            cubicEaseInOut(i, currentPosition3, diffPosition3, timeMs/10),
+            cubicEaseInOut(i, currentPosition4, diffPosition4, timeMs/10),
+            cubicEaseInOut(i, currentPosition5, diffPosition5, timeMs/10)
+        );
+        _delay_ms(10);
     }
 }
