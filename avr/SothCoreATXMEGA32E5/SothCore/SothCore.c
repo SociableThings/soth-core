@@ -51,7 +51,7 @@ int main(void)
 
     _delay_ms(1000);
 
-    setStandaloneMotion();
+    //setStandaloneMotion();
 
     // LED test
     /*
@@ -84,7 +84,7 @@ int main(void)
 
     
     // I2C test
-    /*uint8_t data[] = {0x20, 0x90};
+    uint8_t data[] = {0x20, 0x90};
     addQueue(0b10111000, 2, data, 0, testI2C);
 
     _delay_ms(2000);
@@ -96,10 +96,10 @@ int main(void)
     addQueue(0b10111000, 1, data3, 1, testI2C);
 
     uint8_t data4[] = {0x2A};
-    addQueue(0b10111000, 1, data4, 1, testI2C);*/
+    addQueue(0b10111000, 1, data4, 1, testI2C);
 
-    /*
-    // Temperature, pressure, humidity
+    
+    /*// Temperature, pressure, humidity
     _delay_ms(1000);
 
     initBME280();
