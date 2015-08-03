@@ -10,6 +10,7 @@
 
 
 void setStandaloneMotion();
+void setOldStandaloneMotion();
 
 
 #endif /* MOTIONCONTROL_H_ */

@@ -17,6 +17,7 @@
 #include "UsartCmdServo.h"
 #include "xprintf.h"
 #include "MotionControl.h"
+#include "MPU9150.h"
 
 #define WAIT_TIME 200
 #define UP_ANGLE 900
@@ -30,6 +31,7 @@
 void initClock();
 void initPort();
 void onReadSensor(float temperature, float pressure, float humidity);
+void onReadAccSensor(int16_t accX, double accY, double accZ);
 
 int main(void)
 {	
@@ -43,15 +45,22 @@ int main(void)
 	initUsartGPS();
     initI2C();
 	initUsartCmdServo();
+    initBME280();
+    initMPU9150();
 
     // Enable interrupt
-    PMIC_CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm;  // enable high/middle level interrupt executing
-    //PMIC.CTRL = PMIC_LOLVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_HILVLEN_bm;
+    PMIC_CTRL =  PMIC_LOLVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_HILVLEN_bm;  // enable high/middle level interrupt executing
     sei();
 
     _delay_ms(1000);
 
+    /*while(1){
+        readAccGyro(onReadAccSensor);
+        _delay_ms(2000);
+    }*/
+
     //setStandaloneMotion();
+    setOldStandaloneMotion();
 
     // LED test
     /*
@@ -81,9 +90,7 @@ int main(void)
         _delay_ms(1000);
     }*/
     
-
-    
-    // I2C test
+    /*// I2C test
     uint8_t data[] = {0x20, 0x90};
     addQueue(0b10111000, 2, data, 0, testI2C);
 
@@ -96,7 +103,7 @@ int main(void)
     addQueue(0b10111000, 1, data3, 1, testI2C);
 
     uint8_t data4[] = {0x2A};
-    addQueue(0b10111000, 1, data4, 1, testI2C);
+    addQueue(0b10111000, 1, data4, 1, testI2C);*/
 
     
     /*// Temperature, pressure, humidity
@@ -176,6 +183,11 @@ int main(void)
         _delay_ms(500);
         //offLedStatus();
     }*/
+}
+
+void onReadAccSensor(int16_t accX, double accY, double accZ)
+{
+
 }
 
 void onReadSensor(float temperature, float pressure, float humidity)

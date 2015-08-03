@@ -26,6 +26,8 @@ void setPositionWithEasing(
     uint16_t currentPosition5, uint16_t goalPosition5,
     uint16_t timeMs
 );
+void bye();
+void mendo();
 
 void setStandaloneMotion()
 {
@@ -208,4 +210,168 @@ void setPositionWithEasing(
         );
         _delay_ms(10);
     }
+}
+
+void setOldStandaloneMotion()
+{
+    _delay_ms(500);
+        
+    changeTorqueOnForAllServos();
+
+    _delay_ms(2000);
+
+    setGoalPosition(5, CENTER_YAW);
+
+    _delay_ms(2000);
+    setGoalPositionAndTimeForAllServos(CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CENTER_YAW, 1500);
+    _delay_ms(5000);
+        
+    while(1){
+        // move forward
+            
+        //setGoalPositionForAllServos(-100, -100, -100, -100, CENTER_YAW);
+        setGoalPositionAndTimeForAllServos(DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, CENTER_YAW, 1000);
+
+        _delay_ms(2000);
+            
+        for(int8_t i=0; i<4; i++)
+        {
+            setGoalPositionAndTimeForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, CENTER_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, RIGHT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, RIGHT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, RIGHT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, CENTER_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, LEFT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, LEFT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, LEFT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+        }
+
+        //_delay_ms(500);
+
+        // move backward
+
+        setGoalPositionAndTimeForAllServos(DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, CENTER_YAW, 2000);
+
+        _delay_ms(2000);
+
+        setGoalPositionAndTimeForAllServos(CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CENTER_YAW, 1500);
+
+        _delay_ms(5000);
+
+        bye();
+
+        setGoalPositionAndTimeForAllServos(DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, CENTER_YAW, 1000);
+        _delay_ms(1000);
+
+        for(int8_t i=0; i<4; i++)
+        {
+            setGoalPositionAndTimeForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, LEFT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, LEFT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, LEFT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, CENTER_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, DOWN_ANGLE, DOWN_ANGLE, UP_ANGLE, RIGHT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, RIGHT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            setGoalPositionAndTimeForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, RIGHT_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+
+            // top
+            setGoalPositionAndTimeForAllServos(DOWN_ANGLE, UP_ANGLE, UP_ANGLE, DOWN_ANGLE, CENTER_YAW, WAIT_TIME);
+
+            _delay_ms(WAIT_TIME);
+        }
+
+        setGoalPositionAndTimeForAllServos(DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, DOWN_ANGLE, CENTER_YAW, 1000);
+
+        _delay_ms(2000);
+        setGoalPositionAndTimeForAllServos(CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CENTER_YAW, 1500);
+        _delay_ms(5000);
+
+        mendo();
+
+    }
+}
+
+void bye()
+{
+    setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW, 1000);
+    _delay_ms(1000);
+
+    for(uint8_t i=0; i<10; i++){
+        setGoalPositionAndTimeForAllServos(UP_ANGLE+200, UP_ANGLE, UP_ANGLE, UP_ANGLE-200, CENTER_YAW, 400);
+        _delay_ms(400);
+
+        setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE-200, UP_ANGLE+200, UP_ANGLE, CENTER_YAW, 400);
+        _delay_ms(400);
+
+        setGoalPositionAndTimeForAllServos(UP_ANGLE-200, UP_ANGLE, UP_ANGLE, UP_ANGLE+200, CENTER_YAW, 400);
+        _delay_ms(400);
+
+        setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE+200, UP_ANGLE-200, UP_ANGLE, CENTER_YAW, 400);
+        _delay_ms(400);
+    }
+
+    setGoalPositionAndTimeForAllServos(CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CENTER_YAW, 1000);
+    _delay_ms(3000);
+}
+
+void mendo()
+{
+    setGoalPositionAndTimeForAllServos(UP_ANGLE, UP_ANGLE, UP_ANGLE, UP_ANGLE, CENTER_YAW, 1000);
+    _delay_ms(1000);
+
+   setGoalPositionAndTimeForAllServos(UP_ANGLE+200, UP_ANGLE-200, UP_ANGLE+200, UP_ANGLE-200, CENTER_YAW, 300);
+   _delay_ms(300);
+
+   for(uint8_t i=0; i<10; i++){
+      setGoalPositionAndTimeForAllServos(UP_ANGLE-200, UP_ANGLE+200, UP_ANGLE-200, UP_ANGLE+200, CENTER_YAW, 300);
+      _delay_ms(300);
+
+      setGoalPositionAndTimeForAllServos(UP_ANGLE+200, UP_ANGLE-200, UP_ANGLE+200, UP_ANGLE-200, CENTER_YAW, 300);
+      _delay_ms(300);
+   }
+
+   setGoalPositionAndTimeForAllServos(CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CLOSE_ANGLE, CENTER_YAW, 1000);
+   _delay_ms(3000);
 }
